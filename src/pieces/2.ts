@@ -1,5 +1,6 @@
 import { Piece } from "../types";
 import { clean, background } from "../utils/canvas";
+import { distanceToCenter } from "../utils";
 import { register } from "../register";
 
 const firstColor = {
@@ -45,7 +46,7 @@ const createPiece: Piece = (canvas: HTMLCanvasElement) => {
     context.lineCap = "square";
     context.lineWidth = 2;
 
-    background(context, "#black");
+    background(context, "black");
 
     const step = 10;
     const lines = [];
@@ -53,10 +54,8 @@ const createPiece: Piece = (canvas: HTMLCanvasElement) => {
     for (let i = step + 45; i <= size - step; i += step) {
       const line = [];
       for (let j = step; j <= size - step; j += step) {
-        const distanceToCenter = Math.abs(j - size / 2);
-
         const variance = Math.max(
-          size / 2 - (50 + lines.length * 4) - distanceToCenter,
+          size / 2 - (50 + lines.length * 4) - distanceToCenter(size, j),
           0
         );
 

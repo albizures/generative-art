@@ -35,7 +35,7 @@ const createPiece: Piece = (canvas: HTMLCanvasElement) => {
     context.lineCap = "square";
     context.lineWidth = 2;
 
-    background(context, "#black");
+    background(context, "black");
 
     const step = 20;
 
