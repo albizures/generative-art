@@ -1,8 +1,7 @@
-import { Piece } from "../types";
-import { clean, background } from "../utils/canvas";
+import { Piece } from "../piece";
+import { background } from "../utils/canvas";
 import { fromFirstToSecondColor } from "../utils/colors";
 import { distanceToCenter } from "../utils";
-import { register } from "../register";
 
 const firstColor = {
   r: 0,
@@ -16,42 +15,34 @@ const secondColor = {
   b: 154
 };
 
-const createPiece: Piece = (canvas: HTMLCanvasElement) => {
-  let context: CanvasRenderingContext2D;
-
-  const attach = () => {
-    context = canvas.getContext("2d");
-
-    const size = 320;
-    const dpr = window.devicePixelRatio;
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
-    context.scale(dpr, dpr);
-
-    context.lineCap = "square";
-    context.lineWidth = 2;
-
+Piece(() => ({
+  name: "2",
+  setup(piece) {
+    const context = piece.useContext();
     background(context, "black");
-
+  },
+  paint(piece) {
+    const { width, height } = piece.useSize();
+    const context = piece.useContext();
     const step = 10;
     const lines = [];
 
-    for (let i = step + 45; i <= size - step; i += step) {
+    for (let i = step + 45; i <= height - step; i += step) {
       const line = [];
-      for (let j = step; j <= size - step; j += step) {
+      for (let j = step; j <= width - step; j += step) {
         const variance = Math.max(
-          size / 2 - (50 + lines.length * 4) - distanceToCenter(size, j),
+          width / 2 - (50 + lines.length * 4) - distanceToCenter(width, j),
           0
         );
 
         const random = ((Math.random() * variance) / 2) * -1;
-        const point = { x: j > size - step ? size - step : j, y: i + random };
+        const point = { x: j > width - step ? width - step : j, y: i + random };
         line.push(point);
       }
       const lastPoint = line[line.length - 1];
 
-      if (lastPoint.x < size) {
-        lastPoint.x = size;
+      if (lastPoint.x < width) {
+        lastPoint.x = width;
       }
 
       lines.push(line);
@@ -80,15 +71,5 @@ const createPiece: Piece = (canvas: HTMLCanvasElement) => {
       }
       context.stroke();
     }
-  };
-  const unAttach = () => {
-    clean(context);
-  };
-
-  return {
-    attach: () => setTimeout(attach, 100),
-    unAttach
-  };
-};
-
-register("2", createPiece);
+  }
+}));

@@ -1,5 +1,4 @@
-import { register } from "./register";
-import { Size, Vector } from "./types";
+import { Size } from "./types";
 
 interface PieceState {
   useCanvas: () => HTMLCanvasElement;
@@ -39,8 +38,18 @@ const parseSize = (size: PieceSize): Size => {
   return size;
 };
 
+interface Piece {
+  attach: () => void;
+}
+
+const pieces = new Map<string, Piece>();
+
 const Piece = (factory: PieceFactory) => {
-  const { setup = noop, paint, size: rawSize = 320 } = factory();
+  const { setup = noop, paint, size: rawSize = 320, name } = factory();
+
+  if (pieces.has(name)) {
+    throw new Error(`Name already used: '${name}'`);
+  }
 
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
@@ -50,10 +59,6 @@ const Piece = (factory: PieceFactory) => {
 
   container.appendChild(frame);
   frame.appendChild(canvas);
-
-  const [wall] = document.getElementsByClassName("wall");
-
-  wall.appendChild(container);
 
   const size = parseSize(rawSize);
   const { width, height } = size;
@@ -74,6 +79,14 @@ const Piece = (factory: PieceFactory) => {
 
   setup(piece);
   paint(piece);
+
+  pieces.set(name, {
+    attach() {
+      const [wall] = document.getElementsByClassName("wall");
+
+      wall.appendChild(container);
+    }
+  });
 };
 
-export { Piece };
+export { Piece, pieces };

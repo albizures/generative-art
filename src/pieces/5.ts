@@ -28,8 +28,8 @@ Piece(() => ({
     context.lineWidth = 4;
     context.lineCap = "round";
 
-    var step = 20;
-    var aThirdOfHeight = height / 3;
+    const step = 20;
+    const aThirdOfHeight = height / 3;
 
     function draw(
       { x, y }: Vector,
@@ -41,7 +41,7 @@ Piece(() => ({
       context.rotate(Math.random() * 5);
       context.translate(-width / 2, -height / 2);
 
-      for (var i = 0; i <= positions.length; i++) {
+      for (let i = 0; i <= positions.length; i++) {
         context.beginPath();
         context.moveTo(positions[i] * width, 0);
         context.lineTo(positions[i] * width, height);
@@ -56,9 +56,9 @@ Piece(() => ({
       secondColor,
       (height - step) / step
     );
-    for (var y = step; y < height - step; y += step) {
+    for (let y = step; y < height - step; y += step) {
       const color = colors.next().value;
-      for (var x = step; x < width - step; x += step) {
+      for (let x = step; x < width - step; x += step) {
         const positions = { x, y };
         const size = {
           width: step,

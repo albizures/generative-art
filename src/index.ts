@@ -1,12 +1,14 @@
 import "./pieces/*.ts";
-import { getPiece } from "./register";
+import { pieces } from "./piece";
 
-const canvas1 = document.getElementById("canvas1") as HTMLCanvasElement;
-const canvas2 = document.getElementById("canvas2") as HTMLCanvasElement;
-const canvas3 = document.getElementById("canvas3") as HTMLCanvasElement;
-const canvas4 = document.getElementById("canvas4") as HTMLCanvasElement;
+const list = Array.from(pieces).sort(([a], [b]) => {
+  if (a > b) {
+    return -1;
+  }
+  if (b > a) {
+    return 1;
+  }
+  return 0;
+});
 
-getPiece("1", canvas1).attach();
-getPiece("2", canvas2).attach();
-getPiece("3", canvas3).attach();
-getPiece("4", canvas4).attach();
+list.forEach(([, item]) => item.attach());
