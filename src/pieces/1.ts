@@ -1,10 +1,7 @@
 import { Piece } from "../types";
 import { clean, background } from "../utils/canvas";
+import { getRandomItem } from "../utils";
 import { register } from "../register";
-
-const getRandomItem = <T>(items: T[]) => {
-  return items[Math.floor(Math.random() * items.length)];
-};
 
 const colors = ["#00F1FF", "#0161E8", "#290CFF", "#9B00E8", "#FF019A"];
 
