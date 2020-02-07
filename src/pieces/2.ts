@@ -1,5 +1,6 @@
 import { Piece } from "../types";
 import { clean, background } from "../utils/canvas";
+import { fromFirstToSecondColor } from "../utils/colors";
 import { distanceToCenter } from "../utils";
 import { register } from "../register";
 
@@ -13,22 +14,6 @@ const secondColor = {
   r: 255,
   g: 1,
   b: 154
-};
-
-const getStepRation = (steps: number, first: number, second: number) => {
-  return (second - first) / steps;
-};
-
-const fromFirstToSecondColor = (steps: number, currentStep: number) => {
-  const ratioR = getStepRation(steps, firstColor.r, secondColor.r);
-  const ratioG = getStepRation(steps, firstColor.b, secondColor.b);
-  const ratioB = getStepRation(steps, firstColor.g, secondColor.g);
-
-  return {
-    r: firstColor.r + ratioR * currentStep,
-    g: firstColor.g + ratioG * currentStep,
-    b: firstColor.b + ratioB * currentStep
-  };
 };
 
 const createPiece: Piece = (canvas: HTMLCanvasElement) => {
@@ -72,6 +57,11 @@ const createPiece: Piece = (canvas: HTMLCanvasElement) => {
       lines.push(line);
     }
 
+    const colors = fromFirstToSecondColor(
+      firstColor,
+      secondColor,
+      lines.length
+    );
     for (let i = 0; i < lines.length; i++) {
       context.beginPath();
       context.moveTo(lines[i][0].x, lines[i][0].y);
@@ -84,8 +74,10 @@ const createPiece: Piece = (canvas: HTMLCanvasElement) => {
       context.save();
       context.fill();
       context.restore();
-      const color = fromFirstToSecondColor(lines.length, i);
-      context.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+      const color = colors.next().value;
+      if (color) {
+        context.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+      }
       context.stroke();
     }
   };
