@@ -1,21 +1,13 @@
 import { Size } from "./types";
 
-interface PieceState {
-  useCanvas: () => HTMLCanvasElement;
-  useContext: () => CanvasRenderingContext2D;
-  useSize: () => Size;
-}
-
 type PieceSize = number | Size;
 
-interface PieceActions {
+interface PieceConfig {
   name: string;
   size?: PieceSize;
-  setup?: (piece: PieceState) => void;
-  paint: (piece: PieceState) => void;
+  setup?: () => void;
+  paint: () => void;
 }
-
-type PieceFactory = () => PieceActions;
 
 const createDiv = (className: string) => {
   const div = document.createElement("div");
@@ -42,10 +34,30 @@ interface Piece {
   attach: () => void;
 }
 
-const pieces = new Map<string, Piece>();
+interface PieceData {
+  context: CanvasRenderingContext2D;
+  size: Size;
+}
 
-const Piece = (factory: PieceFactory) => {
-  const { setup = noop, paint, size: rawSize = 320, name } = factory();
+const pieces = new Map<string, Piece>();
+const pieceData = new Map<string, PieceData>();
+
+const defaultSetup = () => {
+  const context = useContext();
+  const { canvas } = context;
+  const { width, height } = useSize();
+
+  const dpr = window.devicePixelRatio;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  context.scale(dpr, dpr);
+
+  context.lineCap = "square";
+  context.lineWidth = 2;
+};
+
+const Piece = (config: PieceConfig) => {
+  const { setup = noop, paint, size: rawSize = 320, name } = config;
 
   if (pieces.has(name)) {
     throw new Error(`Name already used: '${name}'`);
@@ -61,32 +73,39 @@ const Piece = (factory: PieceFactory) => {
   frame.appendChild(canvas);
 
   const size = parseSize(rawSize);
-  const { width, height } = size;
 
-  const piece = {
-    useCanvas: () => canvas,
-    useContext: () => context,
-    useSize: () => size
+  const data = {
+    context,
+    size
   };
 
-  const dpr = window.devicePixelRatio;
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
-  context.scale(dpr, dpr);
+  pieceData.set(name, data);
 
-  context.lineCap = "square";
-  context.lineWidth = 2;
+  currentPieceData = data;
+  defaultSetup();
+  setup();
+  paint();
 
-  setup(piece);
-  paint(piece);
-
-  pieces.set(name, {
+  const piece = {
     attach() {
       const [wall] = document.getElementsByClassName("wall");
 
       wall.appendChild(container);
     }
-  });
+  };
+  pieces.set(name, piece);
+
+  return piece;
 };
 
-export { Piece, pieces };
+let currentPieceData: PieceData;
+
+const useContext = () => {
+  return currentPieceData.context;
+};
+
+const useSize = () => {
+  return currentPieceData.size;
+};
+
+export { Piece, Piece as create, pieces, useContext, useSize };
