@@ -8,8 +8,7 @@ const offset = 10;
 const size = squareSize * 10 + offset * 2;
 
 const setup = () => {
-	const context = Piece.useContext();
-	background(context, 'black');
+	background('black');
 };
 
 const drawRect = (width: number, height: number) => {

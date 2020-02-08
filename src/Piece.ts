@@ -1,12 +1,14 @@
 import { Size } from './types';
+import { clean } from './utils/canvas';
 
 type PieceSize = number | Size;
 
-interface PieceConfig {
+interface PieceConfig<T> {
 	name: string;
 	size?: PieceSize;
 	setup?: () => void;
 	paint: () => void;
+	settings?: T;
 }
 
 const createDiv = (className: string) => {
@@ -37,6 +39,7 @@ interface Piece {
 interface PieceData {
 	context: CanvasRenderingContext2D;
 	size: Size;
+	settings?: unknown;
 }
 
 const pieces = new Map<string, Piece>();
@@ -56,12 +59,30 @@ const defaultSetup = () => {
 	context.lineWidth = 2;
 };
 
-const Piece = (config: PieceConfig) => {
-	const { setup = noop, paint, size: rawSize = 320, name } = config;
+const getLocalSettings = <T>(name: string) => {
+	const rawSetting = localStorage.getItem(`${name}-piece-settings`);
+
+	if (rawSetting) {
+		try {
+			return JSON.parse(rawSetting) as T;
+		} catch (error) {}
+	}
+};
+
+const setLocalSettings = (name: string, settings: unknown) => {
+	if (settings) {
+		localStorage.setItem(`${name}-piece-settings`, JSON.stringify(settings));
+	}
+};
+
+const create = <T extends object>(config: PieceConfig<T>) => {
+	const { setup = noop, paint, size: rawSize = 320, name, settings } = config;
 
 	if (pieces.has(name)) {
 		throw new Error(`Name already used: '${name}'`);
 	}
+
+	const localSettings = getLocalSettings<T>(name);
 
 	const canvas = document.createElement('canvas');
 	const context = canvas.getContext('2d');
@@ -74,10 +95,17 @@ const Piece = (config: PieceConfig) => {
 
 	const size = parseSize(rawSize);
 
+	if (localSettings) {
+		console.warn(`Using local setting for '${name}'`);
+	}
+
 	const data = {
 		context,
 		size,
+		settings: localSettings || settings,
 	};
+
+	setLocalSettings(name, data.settings);
 
 	pieceData.set(name, data);
 
@@ -93,6 +121,14 @@ const Piece = (config: PieceConfig) => {
 
 			wall.appendChild(container);
 		},
+		updateSetting<V>(settingName: keyof T, value: V) {
+			Object.assign(data.settings, { [settingName]: value });
+			currentPieceData = data;
+			clean(context);
+			paint();
+			currentPieceData = null;
+			setLocalSettings(name, data.settings);
+		},
 	};
 	pieces.set(name, piece);
 
@@ -107,6 +143,11 @@ const checkCurrentPiece = (name: string) => {
 	}
 };
 
+const useSettings = <T>(): T => {
+	checkCurrentPiece('useSettings');
+	return currentPieceData.settings as T;
+};
+
 const useContext = () => {
 	checkCurrentPiece('useContext');
 	return currentPieceData.context;
@@ -117,4 +158,4 @@ const useSize = () => {
 	return currentPieceData.size;
 };
 
-export { Piece, Piece as create, pieces, useContext, useSize };
+export { create, pieces, useContext, useSize, useSettings };

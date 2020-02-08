@@ -1,13 +1,16 @@
+import * as Piece from '../Piece';
 type Context = CanvasRenderingContext2D;
 const clean = (context: Context) => {
-  context.canvas.width = context.canvas.width;
+	const { height, width } = Piece.useSize();
+	context.clearRect(0, 0, height, width);
 };
 
-const background = (context: Context, color: string) => {
-  context.save();
-  context.fillStyle = color;
-  context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-  context.restore();
+const background = (color: string) => {
+	const context = Piece.useContext();
+	context.save();
+	context.fillStyle = color;
+	context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+	context.restore();
 };
 
 export { clean, background };
