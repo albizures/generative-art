@@ -1,4 +1,4 @@
-import * as Piece from '../_Piece';
+import * as Piece from '../Piece';
 import { background } from '../utils/canvas';
 import { cyberpunk } from '../palettes';
 import { getRandomItem } from '../utils';
