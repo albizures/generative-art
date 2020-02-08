@@ -13,10 +13,9 @@ const setup = () => {
 
 const drawRect = (width: number, height: number) => {
 	const context = Piece.useContext();
-	context.beginPath();
+	context.noFill();
+	context.stroke(getRandomItem(cyberpunk));
 	context.rect(0, 0, width, height);
-	context.strokeStyle = getRandomItem(cyberpunk);
-	context.stroke();
 };
 
 const paint = () => {
@@ -36,14 +35,14 @@ const paint = () => {
 			const translateAmt =
 				y * 0.04 * plusOrMinus() * Math.random() * randomDisplacement;
 
-			context.save();
+			context.push();
 			context.translate(
 				x * squareSize + offset + translateAmt,
 				y * squareSize + offset + translateAmt * plusOrMinus(),
 			);
 			context.rotate(rotateAmt);
 			drawRect(squareSize, squareSize);
-			context.restore();
+			context.pop();
 		}
 	}
 };

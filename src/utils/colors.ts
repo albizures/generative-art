@@ -21,9 +21,9 @@ function* fromFirstToSecondColor(
 
 	for (let i = 0; i < steps; i++) {
 		yield {
-			r: firstColor.r + ratioR * i,
-			g: firstColor.g + ratioG * i,
-			b: firstColor.b + ratioB * i,
+			r: Number.parseInt(String(firstColor.r + ratioR * i)),
+			g: Number.parseInt(String(firstColor.g + ratioG * i)),
+			b: Number.parseInt(String(firstColor.b + ratioB * i)),
 		};
 	}
 }

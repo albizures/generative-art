@@ -11,17 +11,24 @@ interface Settings {
 const draw = (position: Vector, size: Size) => {
 	const context = Piece.useContext();
 	const leftToRight = Math.random() >= 0.5;
-	context.beginPath();
-	if (leftToRight) {
-		context.moveTo(position.x, position.y);
-		context.lineTo(position.x + size.width, position.y + size.height);
-	} else {
-		context.moveTo(position.x + size.width, position.y);
-		context.lineTo(position.x, position.y + size.height);
-	}
 
-	context.strokeStyle = getRandomItem(cyberpunk);
-	context.stroke();
+	context.stroke(getRandomItem(cyberpunk));
+
+	if (leftToRight) {
+		context.line(
+			position.x,
+			position.y,
+			position.x + size.width,
+			position.y + size.height,
+		);
+	} else {
+		context.line(
+			position.x + size.width,
+			position.y,
+			position.x,
+			position.y + size.height,
+		);
+	}
 };
 
 const paint = () => {

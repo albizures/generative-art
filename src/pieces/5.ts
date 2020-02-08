@@ -16,6 +16,9 @@ const secondColor = {
 };
 
 const setup = () => {
+	const context = Piece.useContext();
+	context.strokeWeight(4);
+	context.strokeCap(context.ROUND);
 	background('black');
 };
 
@@ -25,27 +28,21 @@ const draw = (
 	positions: number[],
 ) => {
 	const context = Piece.useContext();
-	context.save();
+	context.push();
 	context.translate(x + width / 2, y + height / 2);
 	context.rotate(Math.random() * 5);
 	context.translate(-width / 2, -height / 2);
 
 	for (let i = 0; i <= positions.length; i++) {
-		context.beginPath();
-		context.moveTo(positions[i] * width, 0);
-		context.lineTo(positions[i] * width, height);
-		context.stroke();
+		context.line(positions[i] * width, 0, positions[i] * width, height);
 	}
 
-	context.restore();
+	context.pop();
 };
 
 const paint = () => {
 	const context = Piece.useContext();
 	const { height, width } = Piece.useSize();
-
-	context.lineWidth = 4;
-	context.lineCap = 'round';
 
 	const step = 20;
 	const aThirdOfHeight = height / 3;
@@ -65,7 +62,7 @@ const paint = () => {
 			};
 
 			if (color) {
-				context.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+				context.stroke(`rgb(${color.r}, ${color.g}, ${color.b})`);
 			}
 
 			if (y < aThirdOfHeight) {

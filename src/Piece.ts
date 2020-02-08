@@ -1,3 +1,4 @@
+import p5 from 'p5';
 import { Size } from './types';
 import { clean } from './utils/canvas';
 
@@ -37,7 +38,7 @@ interface Piece {
 }
 
 interface PieceData {
-	context: CanvasRenderingContext2D;
+	context: p5;
 	size: Size;
 	settings?: unknown;
 }
@@ -46,17 +47,11 @@ const pieces = new Map<string, Piece>();
 const pieceData = new Map<string, PieceData>();
 
 const defaultSetup = () => {
-	const context = useContext();
-	const { canvas } = context;
-	const { width, height } = useSize();
-
 	const dpr = window.devicePixelRatio;
-	canvas.width = width * dpr;
-	canvas.height = height * dpr;
-	context.scale(dpr, dpr);
+	const context = useContext();
 
-	context.lineCap = 'square';
-	context.lineWidth = 2;
+	context.scale(dpr, dpr);
+	context.strokeWeight(2);
 };
 
 const getLocalSettings = <T>(name: string) => {
@@ -80,7 +75,9 @@ const run = (fns: Function | Function[], data: PieceData) => {
 	[].concat(fns).forEach((fn) => {
 		try {
 			fn();
-		} catch (error) {}
+		} catch (error) {
+			console.error(error);
+		}
 	});
 	currentPieceData = null;
 };
@@ -94,16 +91,21 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	const localSettings = getLocalSettings<T>(name);
 
-	const canvas = document.createElement('canvas');
-	const context = canvas.getContext('2d');
-
 	const container = createDiv('piece');
 	const frame = createDiv('frame');
 
 	container.appendChild(frame);
-	frame.appendChild(canvas);
 
 	const size = parseSize(rawSize);
+
+	const context = new p5((sketch: p5) => {
+		sketch.setup = () => {
+			const dpr = window.devicePixelRatio;
+
+			sketch.createCanvas(size.width * dpr, size.height * dpr);
+			run([defaultSetup, setup, paint], data);
+		};
+	}, frame);
 
 	if (localSettings) {
 		console.warn(`Using local setting for '${name}'`);
@@ -119,7 +121,7 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	pieceData.set(name, data);
 
-	run([defaultSetup, setup, paint], data);
+	// run([defaultSetup, setup, paint], data);
 
 	const piece = {
 		attach(parent: Element) {
