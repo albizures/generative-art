@@ -47,10 +47,8 @@ const pieces = new Map<string, Piece>();
 const pieceData = new Map<string, PieceData>();
 
 const defaultSetup = () => {
-	const dpr = window.devicePixelRatio;
 	const context = useContext();
 
-	context.scale(dpr, dpr);
 	context.strokeWeight(2);
 };
 
@@ -100,9 +98,10 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	const context = new p5((sketch: p5) => {
 		sketch.setup = () => {
-			const dpr = window.devicePixelRatio;
+			const canvas = sketch.createCanvas(size.width, size.height);
 
-			sketch.createCanvas(size.width * dpr, size.height * dpr);
+			// canvas.style('height', '');
+			// canvas.style('width', '');
 			run([defaultSetup, setup, paint], data);
 		};
 	}, frame);
@@ -120,8 +119,6 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 	setLocalSettings(name, data.settings);
 
 	pieceData.set(name, data);
-
-	// run([defaultSetup, setup, paint], data);
 
 	const piece = {
 		attach(parent: Element) {
