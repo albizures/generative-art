@@ -1,4 +1,4 @@
-import * as Piece from '../_Piece';
+import * as Piece from '../Piece';
 import { fromFirstToSecondColor } from '../utils/colors';
 import { background } from '../utils/canvas';
 import { Vector, Size } from '../types';
