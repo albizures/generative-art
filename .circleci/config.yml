@@ -31,13 +31,12 @@ jobs:
 
       # run tests!
       - run: yarn test
-      
+
 workflows:
   version: 2
   workflow-name:
-    jobs: 
-      - build
-      - test-integration:
+    jobs:
+      - build:
           filters:
             branches:
               only: master
