@@ -8,6 +8,9 @@
 		"test:types": "tsc --noEmit",
 		"test": "jest"
 	},
+	"browserslist": [
+		"last 1 Chrome versions"
+	],
 	"alias": {
 		"p5": "./node_modules/p5/lib/p5.min.js"
 	},
