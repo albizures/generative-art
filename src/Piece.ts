@@ -127,7 +127,7 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 		},
 		updateSetting<V>(settingName: keyof T, value: V) {
 			Object.assign(data.settings, { [settingName]: value });
-			run(paint, data);
+			run([clean, paint], data);
 			setLocalSettings(name, data.settings);
 		},
 	};

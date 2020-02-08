@@ -28,7 +28,6 @@ const paint = () => {
 	const { width, height } = Piece.useSize();
 	const { steps } = Piece.useSettings<Settings>();
 	background('black');
-	console.log(steps);
 
 	for (let y = 0; y < height; y += steps) {
 		for (let x = 0; x < width; x += steps) {
