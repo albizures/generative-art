@@ -1,4 +1,4 @@
-import * as Piece from '../Piece';
+import * as Piece from '../_Piece';
 import { Vector } from '../types';
 import { background } from '../utils/canvas';
 import { getRandomItem } from '../utils';

@@ -1,4 +1,4 @@
-import * as Piece from '../Piece';
+import * as Piece from '../_Piece';
 import { background } from '../utils/canvas';
 import { fromFirstToSecondColor } from '../utils/colors';
 import { distanceToCenter } from '../utils';
