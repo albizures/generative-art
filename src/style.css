@@ -1,85 +1,86 @@
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body,
 html {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 body {
-  background: #fff;
-  height: 100vh;
-  margin: 0;
-  position: relative;
-  min-height: 560px;
-  --blur: 2px;
+	background: #fff;
+	height: 100vh;
+	margin: 0;
+	position: relative;
+	min-height: 560px;
+	--blur: 2px;
 }
 
 .piece {
-  margin: 20px;
-  box-sizing: border-box;
-  position: relative;
-  background: black;
-  background-image: -webkit-gradient(
-    linear,
-    right top,
-    left bottom,
-    from(#111),
-    to(#000)
-  );
-  padding: 15px;
-  box-shadow: -1px 1px var(--blur) 1px rgba(0, 0, 0, 0.1),
-    -2px 2px var(--blur) 1px rgba(0, 0, 0, 0.09),
-    -3px 3px var(--blur) 1px rgba(0, 0, 0, 0.08),
-    -4px 4px var(--blur) 1px rgba(0, 0, 0, 0.07),
-    -5px 5px var(--blur) 1px rgba(0, 0, 0, 0.06),
-    -6px 6px var(--blur) 1px rgba(0, 0, 0, 0.05),
-    -7px 7px var(--blur) 1px rgba(0, 0, 0, 0.04),
-    -8px 8px var(--blur) 1px rgba(0, 0, 0, 0.03),
-    -9px 9px var(--blur) 1px rgba(0, 0, 0, 0.03);
+	margin: 20px;
+	box-sizing: border-box;
+	position: relative;
+	background: black;
+	background-image: -webkit-gradient(
+		linear,
+		right top,
+		left bottom,
+		from(#111),
+		to(#000)
+	);
+	padding: 15px;
+	box-shadow: -1px 1px var(--blur) 1px rgba(0, 0, 0, 0.1),
+		-2px 2px var(--blur) 1px rgba(0, 0, 0, 0.09),
+		-3px 3px var(--blur) 1px rgba(0, 0, 0, 0.08),
+		-4px 4px var(--blur) 1px rgba(0, 0, 0, 0.07),
+		-5px 5px var(--blur) 1px rgba(0, 0, 0, 0.06),
+		-6px 6px var(--blur) 1px rgba(0, 0, 0, 0.05),
+		-7px 7px var(--blur) 1px rgba(0, 0, 0, 0.04),
+		-8px 8px var(--blur) 1px rgba(0, 0, 0, 0.03),
+		-9px 9px var(--blur) 1px rgba(0, 0, 0, 0.03);
 }
 
 .frame {
-  left: 3%;
-  top: 2.5%;
-  box-shadow: inset -1px 1px 6px 1px rgba(0, 0, 0, 0.24);
-  background: white;
-  align-items: center;
-  display: flex;
-  padding: 20px;
-  box-sizing: border-box;
+	left: 3%;
+	top: 2.5%;
+	box-shadow: inset -1px 1px 6px 1px rgba(0, 0, 0, 0.24);
+	background: white;
+	align-items: center;
+	display: flex;
+	padding: 20px;
+	box-sizing: border-box;
 }
 
 canvas {
-  box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.2);
-  height: 200px;
-  width: 200px;
-  background-size: cover;
-  background-position: center center;
-  border-radius: 4px;
-  box-shadow: -3px 3px 5px -3px;
-  border: 1px solid black;
+	box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.2);
+	/* p5 leaves no other options than use important :( */
+	width: 200px !important;
+	height: 200px !important;
+	background-size: cover;
+	background-position: center center;
+	border-radius: 4px;
+	box-shadow: -3px 3px 5px -3px;
+	border: 1px solid black;
 }
 
 @media (min-width: 720px) {
-  canvas {
-    height: 400px;
-    width: 400px;
-  }
+	canvas {
+		height: 400px !important;
+		width: 400px !important;
+	}
 
-  .frame {
-    padding: 40px;
-  }
+	.frame {
+		padding: 40px;
+	}
 
-  .piece {
-    padding: 20px;
-  }
+	.piece {
+		padding: 20px;
+	}
 }
 
 .wall {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
 }

@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"lib": ["es2015", "es2017", "dom", "dom.iterable"],
+		"typeRoots": ["./src/types", "./node_modules/@types"],
+		"esModuleInterop": true
+	},
+	"exclude": ["node_modules", "typings"]
+}

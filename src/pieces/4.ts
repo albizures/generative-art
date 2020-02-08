@@ -8,25 +8,18 @@ type Lines = Vector[][];
 
 const setup = () => {
 	const context = Piece.useContext();
-	context.lineJoin = 'bevel';
-	context.lineWidth = 1;
 
-	background('black');
+	context.strokeJoin(context.BEVEL);
+	context.strokeCap(context.SQUARE);
+	context.strokeWeight(1);
 };
 
 function drawTriangle(pointA: Vector, pointB: Vector, pointC: Vector) {
 	const context = Piece.useContext();
 
-	context.beginPath();
-	context.moveTo(pointA.x, pointA.y);
-	context.lineTo(pointB.x, pointB.y);
-	context.lineTo(pointC.x, pointC.y);
-	context.lineTo(pointA.x, pointA.y);
-	context.closePath();
-	context.strokeStyle = 'black';
-	context.fillStyle = getRandomItem(cyberpunk);
-	context.fill();
-	context.stroke();
+	context.fill(getRandomItem(cyberpunk));
+	context.triangle(pointA.x, pointA.y, pointB.x, pointB.y, pointC.x, pointC.y);
+	context.stroke('black');
 }
 
 const createLines = (gap: number, offset: number) => {
@@ -77,11 +70,6 @@ const drawLines = (lines: Lines) => {
 
 const paint = () => {
 	const { width } = Piece.useSize();
-	const context = Piece.useContext();
-	context.lineJoin = 'bevel';
-	context.lineCap = 'square';
-	context.lineWidth = 1;
-
 	background('black');
 
 	const offset = 30;

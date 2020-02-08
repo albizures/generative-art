@@ -18,10 +18,6 @@ const secondColor = {
 
 type Lines = Vector[][];
 
-const setup = () => {
-	background('black');
-};
-
 const createLines = (step: number): Lines => {
 	const { width, height } = Piece.useSize();
 	const lines = [];
@@ -53,23 +49,26 @@ const createLines = (step: number): Lines => {
 const paintLines = (lines: Lines) => {
 	const context = Piece.useContext();
 	const colors = fromFirstToSecondColor(firstColor, secondColor, lines.length);
-	for (let i = 0; i < lines.length; i++) {
-		context.beginPath();
-		context.moveTo(lines[i][0].x, lines[i][0].y);
-		for (var j = 0; j < lines[i].length - 1; j++) {
-			const xc = (lines[i][j].x + lines[i][j + 1].x) / 2;
-			const yc = (lines[i][j].y + lines[i][j + 1].y) / 2;
-			context.quadraticCurveTo(lines[i][j].x, lines[i][j].y, xc, yc);
-		}
+	background('black');
 
-		context.save();
-		context.fill();
-		context.restore();
+	context.noFill();
+	for (let i = 0; i < lines.length; i++) {
 		const color = colors.next().value;
-		if (color) {
-			context.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+		const line = lines[i];
+		context.beginShape();
+		context.vertex(line[0].x, line[0].y);
+		for (var j = 0; j < line.length - 1; j++) {
+			context.strokeWeight(2);
+			const point = line[j];
+			const nextPoint = line[j + 1];
+			const xc = (point.x + nextPoint.x) / 2;
+			const yc = (point.y + nextPoint.y) / 2;
+			if (color) {
+				context.stroke(`rgb(${color.r}, ${color.g}, ${color.b})`);
+			}
+			context.quadraticVertex(point.x, point.y, xc, yc);
 		}
-		context.stroke();
+		context.endShape();
 	}
 };
 
@@ -83,5 +82,4 @@ const paint = () => {
 Piece.create({
 	name: '2',
 	paint,
-	setup,
 });
