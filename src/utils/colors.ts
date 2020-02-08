@@ -11,7 +11,7 @@ const getStepRation = (steps: number, first: number, second: number) => {
 function* fromFirstToSecondColor(
   firstColor: RgbColor,
   secondColor: RgbColor,
-  steps: number
+  steps: number,
 ) {
   const ratioR = getStepRation(steps, firstColor.r, secondColor.r);
   const ratioG = getStepRation(steps, firstColor.b, secondColor.b);
@@ -21,7 +21,7 @@ function* fromFirstToSecondColor(
     yield {
       r: firstColor.r + ratioR * i,
       g: firstColor.g + ratioG * i,
-      b: firstColor.b + ratioB * i
+      b: firstColor.b + ratioB * i,
     };
   }
 }

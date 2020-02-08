@@ -1,17 +1,17 @@
-import * as Piece from "../piece";
-import { Vector } from "../types";
-import { background } from "../utils/canvas";
-import { getRandomItem } from "../utils";
-import { cyberpunk } from "../palettes";
+import * as Piece from '../_Piece';
+import { Vector } from '../types';
+import { background } from '../utils/canvas';
+import { getRandomItem } from '../utils';
+import { cyberpunk } from '../palettes';
 
 type Lines = Vector[][];
 
 const setup = () => {
   const context = Piece.useContext();
-  context.lineJoin = "bevel";
+  context.lineJoin = 'bevel';
   context.lineWidth = 1;
 
-  background(context, "black");
+  background(context, 'black');
 };
 
 function drawTriangle(pointA: Vector, pointB: Vector, pointC: Vector) {
@@ -23,7 +23,7 @@ function drawTriangle(pointA: Vector, pointB: Vector, pointC: Vector) {
   context.lineTo(pointC.x, pointC.y);
   context.lineTo(pointA.x, pointA.y);
   context.closePath();
-  context.strokeStyle = "black";
+  context.strokeStyle = 'black';
   context.fillStyle = getRandomItem(cyberpunk);
   context.fill();
   context.stroke();
@@ -41,7 +41,7 @@ const createLines = (gap: number, offset: number) => {
     for (let x = gap / 4 + offset; x <= width - offset; x += gap) {
       const point = {
         x: x + (Math.random() * 0.8 - 0.4) * gap + (odd ? gap / 2 : 0),
-        y: y + (Math.random() * 0.8 - 0.4) * gap
+        y: y + (Math.random() * 0.8 - 0.4) * gap,
       };
 
       line.push(point);
@@ -78,11 +78,11 @@ const drawLines = (lines: Lines) => {
 const paint = () => {
   const { width } = Piece.useSize();
   const context = Piece.useContext();
-  context.lineJoin = "bevel";
-  context.lineCap = "square";
+  context.lineJoin = 'bevel';
+  context.lineCap = 'square';
   context.lineWidth = 1;
 
-  background(context, "black");
+  background(context, 'black');
 
   const offset = 30;
   const gap = width / 7;
@@ -92,7 +92,7 @@ const paint = () => {
 };
 
 Piece.create({
-  name: "4",
+  name: '4',
   paint,
-  setup
+  setup,
 });

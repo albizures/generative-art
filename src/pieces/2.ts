@@ -1,26 +1,26 @@
-import * as Piece from "../piece";
-import { background } from "../utils/canvas";
-import { fromFirstToSecondColor } from "../utils/colors";
-import { distanceToCenter } from "../utils";
-import { Vector } from "../types";
+import * as Piece from '../_Piece';
+import { background } from '../utils/canvas';
+import { fromFirstToSecondColor } from '../utils/colors';
+import { distanceToCenter } from '../utils';
+import { Vector } from '../types';
 
 const firstColor = {
   r: 0,
   g: 241,
-  b: 255
+  b: 255,
 };
 
 const secondColor = {
   r: 255,
   g: 1,
-  b: 154
+  b: 154,
 };
 
 type Lines = Vector[][];
 
 const setup = () => {
   const context = Piece.useContext();
-  background(context, "black");
+  background(context, 'black');
 };
 
 const createLines = (step: number): Lines => {
@@ -32,7 +32,7 @@ const createLines = (step: number): Lines => {
     for (let j = step; j <= width - step; j += step) {
       const variance = Math.max(
         width / 2 - (50 + lines.length * 4) - distanceToCenter(width, j),
-        0
+        0,
       );
 
       const random = ((Math.random() * variance) / 2) * -1;
@@ -82,7 +82,7 @@ const paint = () => {
 };
 
 Piece.create({
-  name: "2",
+  name: '2',
   paint,
-  setup
+  setup,
 });

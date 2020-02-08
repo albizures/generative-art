@@ -1,7 +1,7 @@
-import * as Piece from "../piece";
-import { background } from "../utils/canvas";
-import { cyberpunk } from "../palettes";
-import { getRandomItem, plusOrMinus } from "../utils";
+import * as Piece from '../_Piece';
+import { background } from '../utils/canvas';
+import { cyberpunk } from '../palettes';
+import { getRandomItem, plusOrMinus } from '../utils';
 
 const squareSize = 30;
 const offset = 10;
@@ -9,7 +9,7 @@ const size = squareSize * 10 + offset * 2;
 
 const setup = () => {
   const context = Piece.useContext();
-  background(context, "black");
+  background(context, 'black');
 };
 
 const drawRect = (width: number, height: number) => {
@@ -40,7 +40,7 @@ const paint = () => {
       context.save();
       context.translate(
         x * squareSize + offset + translateAmt,
-        y * squareSize + offset + translateAmt * plusOrMinus()
+        y * squareSize + offset + translateAmt * plusOrMinus(),
       );
       context.rotate(rotateAmt);
       drawRect(squareSize, squareSize);
@@ -50,8 +50,8 @@ const paint = () => {
 };
 
 Piece.create({
-  name: "3",
+  name: '3',
   size: size,
   paint,
-  setup
+  setup,
 });

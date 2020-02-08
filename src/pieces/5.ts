@@ -1,29 +1,29 @@
-import * as Piece from "../piece";
-import { fromFirstToSecondColor } from "../utils/colors";
-import { background } from "../utils/canvas";
-import { Vector, Size } from "../types";
+import * as Piece from '../_Piece';
+import { fromFirstToSecondColor } from '../utils/colors';
+import { background } from '../utils/canvas';
+import { Vector, Size } from '../types';
 
 const firstColor = {
   r: 255,
   g: 1,
-  b: 154
+  b: 154,
 };
 
 const secondColor = {
   r: 0,
   g: 241,
-  b: 255
+  b: 255,
 };
 
 const setup = () => {
   const context = Piece.useContext();
-  background(context, "black");
+  background(context, 'black');
 };
 
 const draw = (
   { x, y }: Vector,
   { width, height }: Size,
-  positions: number[]
+  positions: number[],
 ) => {
   const context = Piece.useContext();
   context.save();
@@ -46,7 +46,7 @@ const paint = () => {
   const { height, width } = Piece.useSize();
 
   context.lineWidth = 4;
-  context.lineCap = "round";
+  context.lineCap = 'round';
 
   const step = 20;
   const aThirdOfHeight = height / 3;
@@ -54,7 +54,7 @@ const paint = () => {
   const colors = fromFirstToSecondColor(
     firstColor,
     secondColor,
-    (height - step) / step
+    (height - step) / step,
   );
   for (let y = step; y < height - step; y += step) {
     const color = colors.next().value;
@@ -62,7 +62,7 @@ const paint = () => {
       const positions = { x, y };
       const size = {
         width: step,
-        height: step
+        height: step,
       };
 
       if (color) {
@@ -81,7 +81,7 @@ const paint = () => {
 };
 
 Piece.create({
-  name: "5",
+  name: '5',
   paint,
-  setup
+  setup,
 });

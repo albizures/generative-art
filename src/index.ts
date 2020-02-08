@@ -1,5 +1,5 @@
-import "./pieces/*.ts";
-import { pieces } from "./piece";
+import './pieces/*.ts';
+import { pieces } from './piece';
 
 const list = Array.from(pieces).sort(([a], [b]) => {
   if (a > b) {

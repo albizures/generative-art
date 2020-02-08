@@ -1,12 +1,12 @@
-import * as Piece from "../piece";
-import { background } from "../utils/canvas";
-import { cyberpunk } from "../palettes";
-import { getRandomItem } from "../utils";
-import { Vector, Size } from "../types";
+import * as Piece from '../_Piece';
+import { background } from '../utils/canvas';
+import { cyberpunk } from '../palettes';
+import { getRandomItem } from '../utils';
+import { Vector, Size } from '../types';
 
 const setup = () => {
   const context = Piece.useContext();
-  background(context, "black");
+  background(context, 'black');
 };
 
 const draw = (position: Vector, size: Size) => {
@@ -37,7 +37,7 @@ const paint = () => {
 };
 
 Piece.create({
-  name: "1",
+  name: '1',
   setup,
-  paint
+  paint,
 });

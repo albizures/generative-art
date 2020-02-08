@@ -1,4 +1,4 @@
-import { Size } from "./types";
+import { Size } from './types';
 
 type PieceSize = number | Size;
 
@@ -10,7 +10,7 @@ interface PieceConfig {
 }
 
 const createDiv = (className: string) => {
-  const div = document.createElement("div");
+  const div = document.createElement('div');
 
   div.className = className;
 
@@ -20,10 +20,10 @@ const createDiv = (className: string) => {
 const noop = () => undefined;
 
 const parseSize = (size: PieceSize): Size => {
-  if (typeof size === "number") {
+  if (typeof size === 'number') {
     return {
       width: size,
-      height: size
+      height: size,
     };
   }
 
@@ -52,7 +52,7 @@ const defaultSetup = () => {
   canvas.height = height * dpr;
   context.scale(dpr, dpr);
 
-  context.lineCap = "square";
+  context.lineCap = 'square';
   context.lineWidth = 2;
 };
 
@@ -63,11 +63,11 @@ const Piece = (config: PieceConfig) => {
     throw new Error(`Name already used: '${name}'`);
   }
 
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
 
-  const container = createDiv("piece");
-  const frame = createDiv("frame");
+  const container = createDiv('piece');
+  const frame = createDiv('frame');
 
   container.appendChild(frame);
   frame.appendChild(canvas);
@@ -76,7 +76,7 @@ const Piece = (config: PieceConfig) => {
 
   const data = {
     context,
-    size
+    size,
   };
 
   pieceData.set(name, data);
@@ -88,10 +88,10 @@ const Piece = (config: PieceConfig) => {
 
   const piece = {
     attach() {
-      const [wall] = document.getElementsByClassName("wall");
+      const [wall] = document.getElementsByClassName('wall');
 
       wall.appendChild(container);
-    }
+    },
   };
   pieces.set(name, piece);
 
