@@ -33,7 +33,7 @@ const parseSize = (size: PieceSize): Size => {
 };
 
 interface Piece {
-	attach: () => void;
+	attach: (parent: Element) => void;
 }
 
 interface PieceData {
@@ -75,6 +75,16 @@ const setLocalSettings = (name: string, settings: unknown) => {
 	}
 };
 
+const run = (fns: Function | Function[], data: PieceData) => {
+	currentPieceData = data;
+	[].concat(fns).forEach((fn) => {
+		try {
+			fn();
+		} catch (error) {}
+	});
+	currentPieceData = null;
+};
+
 const create = <T extends object>(config: PieceConfig<T>) => {
 	const { setup = noop, paint, size: rawSize = 320, name, settings } = config;
 
@@ -109,24 +119,15 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	pieceData.set(name, data);
 
-	currentPieceData = data;
-	defaultSetup();
-	setup();
-	paint();
-	currentPieceData = null;
+	run([defaultSetup, setup, paint], data);
 
 	const piece = {
-		attach() {
-			const [wall] = document.getElementsByClassName('wall');
-
-			wall.appendChild(container);
+		attach(parent: Element) {
+			parent.appendChild(container);
 		},
 		updateSetting<V>(settingName: keyof T, value: V) {
 			Object.assign(data.settings, { [settingName]: value });
-			currentPieceData = data;
-			clean(context);
-			paint();
-			currentPieceData = null;
+			run(paint, data);
 			setLocalSettings(name, data.settings);
 		},
 	};

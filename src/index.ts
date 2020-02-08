@@ -10,7 +10,8 @@ const list = Array.from(pieces).sort(([a], [b]) => {
 	}
 	return 0;
 });
-
 Object.assign(window, { pieces });
 
-list.forEach(([, item]) => item.attach());
+const [wall] = document.getElementsByClassName('wall');
+
+list.forEach(([, item]) => item.attach(wall));
