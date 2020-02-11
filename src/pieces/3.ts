@@ -2,6 +2,7 @@ import * as Piece from '../Piece';
 import { background } from '../utils/canvas';
 import { cyberpunk } from '../palettes';
 import { getRandomItem, plusOrMinus } from '../utils';
+import { range } from '../utils/range';
 
 const squareSize = 30;
 const offset = 10;
@@ -24,8 +25,8 @@ const paint = () => {
 	const randomDisplacement = 15;
 	const rotateMultiplier = 20;
 
-	for (let x = 0; x < 10; x++) {
-		for (let y = 0; y < 10; y++) {
+	for (const x of range([0, 10])) {
+		for (const y of range([0, 10])) {
 			const rotateAmt =
 				((y * 0.1 * Math.PI) / 180) *
 				plusOrMinus() *

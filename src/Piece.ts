@@ -96,22 +96,15 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	const size = parseSize(rawSize);
 
-	const context = new p5((sketch: p5) => {
-		sketch.setup = () => {
-			const canvas = sketch.createCanvas(size.width, size.height);
-
-			// canvas.style('height', '');
-			// canvas.style('width', '');
-			run([defaultSetup, setup, paint], data);
-		};
-	}, frame);
-
 	if (localSettings) {
 		console.warn(`Using local setting for '${name}'`);
 	}
 
+	let context: p5;
 	const data = {
-		context,
+		get context() {
+			return context;
+		},
 		size,
 		settings: localSettings || settings,
 	};
@@ -122,7 +115,14 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	const piece = {
 		attach(parent: Element) {
-			parent.appendChild(container);
+			new p5((sketch: p5) => {
+				context = sketch;
+				context.setup = () => {
+					context.createCanvas(size.width, size.height);
+					parent.appendChild(container);
+					run([defaultSetup, setup, paint], data);
+				};
+			}, frame);
 		},
 		updateSetting<V>(settingName: keyof T, value: V) {
 			Object.assign(data.settings, { [settingName]: value });

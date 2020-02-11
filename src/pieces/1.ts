@@ -3,6 +3,7 @@ import { background } from '../utils/canvas';
 import { cyberpunk } from '../palettes';
 import { getRandomItem } from '../utils';
 import { Vector, Size } from '../types';
+import { range } from '../utils/range';
 
 interface Settings {
 	steps: number;
@@ -36,8 +37,8 @@ const paint = () => {
 	const { steps } = Piece.useSettings<Settings>();
 	background('black');
 
-	for (let y = 0; y < height; y += steps) {
-		for (let x = 0; x < width; x += steps) {
+	for (const y of range([, height], steps)) {
+		for (const x of range([, width], steps)) {
 			draw({ x, y }, { width: steps, height: steps });
 		}
 	}

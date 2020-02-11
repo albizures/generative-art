@@ -3,6 +3,7 @@ import { background } from '../utils/canvas';
 import { fromFirstToSecondColor } from '../utils/colors';
 import { distanceToCenter } from '../utils';
 import { Vector } from '../types';
+import { range } from '../utils/range';
 
 const firstColor = {
 	r: 0,
@@ -22,9 +23,9 @@ const createLines = (step: number): Lines => {
 	const { width, height } = Piece.useSize();
 	const lines = [];
 
-	for (let i = step + 45; i <= height - step; i += step) {
+	for (const i of range([step + 45, , height - step], step)) {
 		const line = [];
-		for (let j = step; j <= width - step; j += step) {
+		for (const j of range([step, , width - step], step)) {
 			const variance = Math.max(
 				width / 2 - (50 + lines.length * 4) - distanceToCenter(width, j),
 				0,
@@ -51,13 +52,13 @@ const paintLines = (lines: Lines) => {
 	const colors = fromFirstToSecondColor(firstColor, secondColor, lines.length);
 	background('black');
 
-	context.noFill();
-	for (let i = 0; i < lines.length; i++) {
+	context.fill('black');
+	for (const i of range([, lines.length])) {
 		const color = colors.next().value;
 		const line = lines[i];
 		context.beginShape();
 		context.vertex(line[0].x, line[0].y);
-		for (var j = 0; j < line.length - 1; j++) {
+		for (const j of range([, line.length - 1])) {
 			context.strokeWeight(2);
 			const point = line[j];
 			const nextPoint = line[j + 1];

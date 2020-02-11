@@ -2,6 +2,7 @@ import * as Piece from '../Piece';
 import { fromFirstToSecondColor } from '../utils/colors';
 import { background } from '../utils/canvas';
 import { Vector, Size } from '../types';
+import { range } from '../utils/range';
 
 const firstColor = {
 	r: 255,
@@ -33,8 +34,8 @@ const draw = (
 	context.rotate(Math.random() * 5);
 	context.translate(-width / 2, -height / 2);
 
-	for (let i = 0; i <= positions.length; i++) {
-		context.line(positions[i] * width, 0, positions[i] * width, height);
+	for (const index of range([, , positions.length])) {
+		context.line(positions[index] * width, 0, positions[index] * width, height);
 	}
 
 	context.pop();
@@ -52,9 +53,9 @@ const paint = () => {
 		secondColor,
 		(height - step) / step,
 	);
-	for (let y = step; y < height - step; y += step) {
+	for (const y of range([step, height - step], step)) {
 		const color = colors.next().value;
-		for (let x = step; x < width - step; x += step) {
+		for (const x of range([step, width - step], step)) {
 			const positions = { x, y };
 			const size = {
 				width: step,
