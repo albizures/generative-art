@@ -4,11 +4,14 @@ import { clean } from './utils/canvas';
 
 type PieceSize = number | Size;
 
-interface PieceConfig<T> {
+interface PieceConfig<T, S> {
 	name: string;
 	size?: PieceSize;
 	setup?: () => void;
-	paint: () => void;
+	paint?: () => void;
+	draw?: () => void;
+	update?: (state: S) => S;
+	state?: S;
 	settings?: T;
 }
 
@@ -40,6 +43,8 @@ interface Piece {
 interface PieceData {
 	context: p5;
 	size: Size;
+	name: string;
+	state: unknown;
 	settings?: unknown;
 }
 
@@ -80,8 +85,19 @@ const run = (fns: Function | Function[], data: PieceData) => {
 	currentPieceData = null;
 };
 
-const create = <T extends object>(config: PieceConfig<T>) => {
-	const { setup = noop, paint, size: rawSize = 320, name, settings } = config;
+const create = <T extends object, S extends object = {}>(
+	config: PieceConfig<T, S>,
+) => {
+	const {
+		setup = noop,
+		paint,
+		size: rawSize = 320,
+		name,
+		settings,
+		draw,
+		update,
+		state: defaultState = {} as S,
+	} = config;
 
 	if (pieces.has(name)) {
 		throw new Error(`Name already used: '${name}'`);
@@ -100,8 +116,10 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 		console.warn(`Using local setting for '${name}'`);
 	}
 
-	let context: p5;
+	const context = new p5((sketch: p5) => {}, frame);
 	const data = {
+		state: defaultState,
+		name,
 		get context() {
 			return context;
 		},
@@ -115,14 +133,23 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	const piece = {
 		attach(parent: Element) {
-			new p5((sketch: p5) => {
-				context = sketch;
-				context.setup = () => {
-					context.createCanvas(size.width, size.height);
-					parent.appendChild(container);
-					run([defaultSetup, setup, paint], data);
+			parent.appendChild(container);
+			const hasDraw = !!draw;
+
+			context.setup = () => {
+				context.createCanvas(size.width, size.height);
+				if (!hasDraw) {
+					context.noLoop();
+				}
+				run([defaultSetup, setup, paint].filter(Boolean), data);
+			};
+
+			if (hasDraw) {
+				const updateState = () => (data.state = update(data.state));
+				context.draw = () => {
+					run([updateState, draw], data);
 				};
-			}, frame);
+			}
 		},
 		updateSetting<V>(settingName: keyof T, value: V) {
 			Object.assign(data.settings, { [settingName]: value });
@@ -153,9 +180,14 @@ const useContext = () => {
 	return currentPieceData.context;
 };
 
+const useState = <S>() => {
+	checkCurrentPiece('useState');
+	return currentPieceData.state as S;
+};
+
 const useSize = () => {
 	checkCurrentPiece('useSize');
 	return currentPieceData.size;
 };
 
-export { create, pieces, useContext, useSize, useSettings };
+export { create, pieces, useContext, useSize, useSettings, useState };

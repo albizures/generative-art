@@ -34,7 +34,7 @@ const draw = (
 	context.rotate(Math.random() * 5);
 	context.translate(-width / 2, -height / 2);
 
-	for (const index of range([, , positions.length])) {
+	for (const index of range([, positions.length])) {
 		context.line(positions[index] * width, 0, positions[index] * width, height);
 	}
 
