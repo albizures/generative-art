@@ -116,7 +116,7 @@ const create = <T extends object, S extends object = {}>(
 		console.warn(`Using local setting for '${name}'`);
 	}
 
-	const context = new p5((sketch: p5) => {}, frame);
+	let context: p5;
 	const data = {
 		state: defaultState,
 		name,
@@ -136,20 +136,23 @@ const create = <T extends object, S extends object = {}>(
 			parent.appendChild(container);
 			const hasDraw = !!draw;
 
-			context.setup = () => {
-				context.createCanvas(size.width, size.height);
-				if (!hasDraw) {
-					context.noLoop();
-				}
-				run([defaultSetup, setup, paint].filter(Boolean), data);
-			};
-
-			if (hasDraw) {
-				const updateState = () => (data.state = update(data.state));
-				context.draw = () => {
-					run([updateState, draw], data);
+			new p5((sketch: p5) => {
+				context = sketch;
+				context.setup = () => {
+					context.createCanvas(size.width, size.height);
+					if (!hasDraw) {
+						context.noLoop();
+					}
+					run([defaultSetup, setup, paint].filter(Boolean), data);
 				};
-			}
+
+				if (hasDraw) {
+					const updateState = () => (data.state = update(data.state));
+					context.draw = () => {
+						run([updateState, draw], data);
+					};
+				}
+			}, frame);
 		},
 		updateSetting<V>(settingName: keyof T, value: V) {
 			Object.assign(data.settings, { [settingName]: value });

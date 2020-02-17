@@ -1,6 +1,19 @@
 import { range } from '../range';
 
+function* A() {
+	return;
+}
+
 describe('range', () => {
+	test.only('empty range', () => {
+		const fn = jest.fn();
+
+		for (const index of range([0, 0])) {
+			fn(index);
+		}
+
+		expect(fn).toHaveBeenCalledTimes(0);
+	});
 	test('make a range from the given start to the end without including the last one', () => {
 		const fn = jest.fn();
 		for (const index of range([0, 4])) {
@@ -68,7 +81,7 @@ describe('range', () => {
 		expect(fn).toHaveBeenCalledTimes(5);
 	});
 
-	test('log a warning when no valid to is provided', () => {
+	test('log a warning when no valid "to" is provided', () => {
 		jest.spyOn(console, 'warn');
 		range([, ,]);
 

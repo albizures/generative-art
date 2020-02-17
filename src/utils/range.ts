@@ -1,5 +1,3 @@
-type Ranger = Iterable<number>;
-
 type OptionalNumber = number | undefined;
 type RangeRanger =
 	| [OptionalNumber, OptionalNumber]
@@ -9,14 +7,15 @@ const range = (
 	[from = 0, to, inclusiveTo]: RangeRanger,
 	stepBy = 1,
 	ignoreInfinityRangeError = false,
-): Ranger => {
-	const realTo = to || inclusiveTo + 1;
-	if (!realTo) {
+): Iterable<number> => {
+	const realTo = to ?? inclusiveTo + 1;
+
+	if (!(typeof realTo === 'number') || Number.isNaN(realTo)) {
 		console.warn(
 			"Ranger: returning an oneStepIterator since no valid 'to' was provided",
 		);
 
-		return (function* oneStepIterator(): Ranger {
+		return (function* oneStepIterator(): Iterable<number> {
 			yield from;
 		})();
 	}
@@ -31,7 +30,13 @@ const range = (
 		}
 	}
 
-	function* iterator(): Ranger {
+	if (from === realTo) {
+		return (function* iterator(): Iterable<number> {
+			return;
+		})();
+	}
+
+	function* iterator(): Iterable<number> {
 		for (let index = from; index < realTo; index += stepBy) {
 			yield index;
 		}
