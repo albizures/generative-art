@@ -36,11 +36,12 @@ const parseSize = (size: PieceSize): Size => {
 	return size;
 };
 
-interface Piece {
+export interface Piece {
 	attach: (parent: Element) => void;
+	updateSetting: (settingName: string, value: any) => void;
 }
 
-interface PieceData {
+export interface PieceData {
 	context: p5;
 	size: Size;
 	name: string;
@@ -49,7 +50,10 @@ interface PieceData {
 }
 
 const pieces = new Map<string, Piece>();
-const pieceData = new Map<string, PieceData>();
+const piecesData = new Map<string, PieceData>();
+
+export type Pieces = typeof pieces;
+export type PiecesData = typeof piecesData;
 
 const defaultSetup = () => {
 	const context = useContext();
@@ -70,11 +74,7 @@ const getLocalSettings = <T extends object>(name: string) => {
 	return {};
 };
 
-const setLocalSetting = <V>(
-	name: string,
-	settingName: keyof V,
-	value: unknown,
-) => {
+const setLocalSetting = (name: string, settingName: string, value: unknown) => {
 	const localSettings = getLocalSettings(name);
 	localStorage.setItem(
 		`${name}-piece-settings`,
@@ -146,7 +146,7 @@ const create = <T extends object, S extends object = {}>(
 		},
 	};
 
-	pieceData.set(name, data);
+	piecesData.set(name, data);
 
 	const piece = {
 		attach(parent: Element) {
@@ -171,12 +171,15 @@ const create = <T extends object, S extends object = {}>(
 				}
 			}, frame);
 		},
-		updateSetting<V>(settingName: keyof T, value: V) {
+		updateSetting(settingName: string, value: unknown) {
 			Object.assign(data.settings, { [settingName]: value });
-			setLocalSetting<T>(name, settingName, value);
-			run([clean, paint], data);
+			setLocalSetting(name, settingName, value);
+			console.log(name);
+
+			run([clean, defaultSetup, setup, paint].filter(Boolean), data);
 		},
 	};
+
 	pieces.set(name, piece);
 
 	return piece;
@@ -210,4 +213,12 @@ const useSize = () => {
 	return currentPieceData.size;
 };
 
-export { create, pieces, useContext, useSize, useSettings, useState };
+export {
+	create,
+	pieces,
+	piecesData,
+	useContext,
+	useSize,
+	useSettings,
+	useState,
+};
