@@ -57,20 +57,32 @@ const defaultSetup = () => {
 	context.strokeWeight(2);
 };
 
-const getLocalSettings = <T>(name: string) => {
+const getLocalSettings = <T extends object>(name: string) => {
 	const rawSetting = localStorage.getItem(`${name}-piece-settings`);
 
 	if (rawSetting) {
 		try {
 			return JSON.parse(rawSetting) as T;
-		} catch (error) {}
+		} catch (error) {
+			return {};
+		}
 	}
+	return {};
 };
 
-const setLocalSettings = (name: string, settings: unknown) => {
-	if (settings) {
-		localStorage.setItem(`${name}-piece-settings`, JSON.stringify(settings));
-	}
+const setLocalSetting = <V>(
+	name: string,
+	settingName: keyof V,
+	value: unknown,
+) => {
+	const localSettings = getLocalSettings(name);
+	localStorage.setItem(
+		`${name}-piece-settings`,
+		JSON.stringify({
+			...localSettings,
+			[settingName]: value,
+		}),
+	);
 };
 
 const run = (fns: Function | Function[], data: PieceData) => {
@@ -112,8 +124,12 @@ const create = <T extends object, S extends object = {}>(
 
 	const size = parseSize(rawSize);
 
-	if (localSettings) {
-		console.warn(`Using local setting for '${name}'`);
+	const properties = Object.keys(localSettings);
+
+	if (localSettings && properties.length > 0) {
+		console.warn(
+			`Using local setting for ${properties.join(', ')} in piece '${name}'`,
+		);
 	}
 
 	let context: p5;
@@ -124,10 +140,11 @@ const create = <T extends object, S extends object = {}>(
 			return context;
 		},
 		size,
-		settings: localSettings || settings,
+		settings: {
+			...settings,
+			...localSettings,
+		},
 	};
-
-	setLocalSettings(name, data.settings);
 
 	pieceData.set(name, data);
 
@@ -156,8 +173,8 @@ const create = <T extends object, S extends object = {}>(
 		},
 		updateSetting<V>(settingName: keyof T, value: V) {
 			Object.assign(data.settings, { [settingName]: value });
+			setLocalSetting<T>(name, settingName, value);
 			run([clean, paint], data);
-			setLocalSettings(name, data.settings);
 		},
 	};
 	pieces.set(name, piece);
