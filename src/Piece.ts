@@ -4,11 +4,14 @@ import { clean } from './utils/canvas';
 
 type PieceSize = number | Size;
 
-interface PieceConfig<T> {
+interface PieceConfig<T, S> {
 	name: string;
 	size?: PieceSize;
 	setup?: () => void;
-	paint: () => void;
+	paint?: () => void;
+	draw?: () => void;
+	update?: (state: S) => S;
+	state?: S;
 	settings?: T;
 }
 
@@ -33,18 +36,24 @@ const parseSize = (size: PieceSize): Size => {
 	return size;
 };
 
-interface Piece {
+export interface Piece {
 	attach: (parent: Element) => void;
+	updateSetting: (settingName: string, value: any) => void;
 }
 
-interface PieceData {
+export interface PieceData {
 	context: p5;
 	size: Size;
+	name: string;
+	state: unknown;
 	settings?: unknown;
 }
 
 const pieces = new Map<string, Piece>();
-const pieceData = new Map<string, PieceData>();
+const piecesData = new Map<string, PieceData>();
+
+export type Pieces = typeof pieces;
+export type PiecesData = typeof piecesData;
 
 const defaultSetup = () => {
 	const context = useContext();
@@ -52,20 +61,28 @@ const defaultSetup = () => {
 	context.strokeWeight(2);
 };
 
-const getLocalSettings = <T>(name: string) => {
+const getLocalSettings = <T extends object>(name: string) => {
 	const rawSetting = localStorage.getItem(`${name}-piece-settings`);
 
 	if (rawSetting) {
 		try {
 			return JSON.parse(rawSetting) as T;
-		} catch (error) {}
+		} catch (error) {
+			return {};
+		}
 	}
+	return {};
 };
 
-const setLocalSettings = (name: string, settings: unknown) => {
-	if (settings) {
-		localStorage.setItem(`${name}-piece-settings`, JSON.stringify(settings));
-	}
+const setLocalSetting = (name: string, settingName: string, value: unknown) => {
+	const localSettings = getLocalSettings(name);
+	localStorage.setItem(
+		`${name}-piece-settings`,
+		JSON.stringify({
+			...localSettings,
+			[settingName]: value,
+		}),
+	);
 };
 
 const run = (fns: Function | Function[], data: PieceData) => {
@@ -80,8 +97,19 @@ const run = (fns: Function | Function[], data: PieceData) => {
 	currentPieceData = null;
 };
 
-const create = <T extends object>(config: PieceConfig<T>) => {
-	const { setup = noop, paint, size: rawSize = 320, name, settings } = config;
+const create = <T extends object, S extends object = {}>(
+	config: PieceConfig<T, S>,
+) => {
+	const {
+		setup = noop,
+		paint,
+		size: rawSize = 320,
+		name,
+		settings,
+		draw,
+		update,
+		state: defaultState = {} as S,
+	} = config;
 
 	if (pieces.has(name)) {
 		throw new Error(`Name already used: '${name}'`);
@@ -96,40 +124,62 @@ const create = <T extends object>(config: PieceConfig<T>) => {
 
 	const size = parseSize(rawSize);
 
-	const context = new p5((sketch: p5) => {
-		sketch.setup = () => {
-			const canvas = sketch.createCanvas(size.width, size.height);
+	const properties = Object.keys(localSettings);
 
-			// canvas.style('height', '');
-			// canvas.style('width', '');
-			run([defaultSetup, setup, paint], data);
-		};
-	}, frame);
-
-	if (localSettings) {
-		console.warn(`Using local setting for '${name}'`);
+	if (localSettings && properties.length > 0) {
+		console.warn(
+			`Using local setting for ${properties.join(', ')} in piece '${name}'`,
+		);
 	}
 
+	let context: p5;
 	const data = {
-		context,
+		state: defaultState,
+		name,
+		get context() {
+			return context;
+		},
 		size,
-		settings: localSettings || settings,
+		settings: {
+			...settings,
+			...localSettings,
+		},
 	};
 
-	setLocalSettings(name, data.settings);
-
-	pieceData.set(name, data);
+	piecesData.set(name, data);
 
 	const piece = {
 		attach(parent: Element) {
 			parent.appendChild(container);
+			const hasDraw = !!draw;
+
+			new p5((sketch: p5) => {
+				context = sketch;
+				context.setup = () => {
+					context.createCanvas(size.width, size.height);
+					if (!hasDraw) {
+						context.noLoop();
+					}
+					run([defaultSetup, setup, paint].filter(Boolean), data);
+				};
+
+				if (hasDraw) {
+					const updateState = () => (data.state = update(data.state));
+					context.draw = () => {
+						run([updateState, draw], data);
+					};
+				}
+			}, frame);
 		},
-		updateSetting<V>(settingName: keyof T, value: V) {
+		updateSetting(settingName: string, value: unknown) {
 			Object.assign(data.settings, { [settingName]: value });
-			run([clean, paint], data);
-			setLocalSettings(name, data.settings);
+			setLocalSetting(name, settingName, value);
+			console.log(name);
+
+			run([clean, defaultSetup, setup, paint].filter(Boolean), data);
 		},
 	};
+
 	pieces.set(name, piece);
 
 	return piece;
@@ -153,9 +203,22 @@ const useContext = () => {
 	return currentPieceData.context;
 };
 
+const useState = <S>() => {
+	checkCurrentPiece('useState');
+	return currentPieceData.state as S;
+};
+
 const useSize = () => {
 	checkCurrentPiece('useSize');
 	return currentPieceData.size;
 };
 
-export { create, pieces, useContext, useSize, useSettings };
+export {
+	create,
+	pieces,
+	piecesData,
+	useContext,
+	useSize,
+	useSettings,
+	useState,
+};

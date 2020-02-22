@@ -1,3 +1,5 @@
+import { range } from './range';
+
 interface RgbColor {
 	r: number;
 	b: number;
@@ -19,13 +21,29 @@ function* fromFirstToSecondColor(
 	const ratioG = getStepRation(realSteps, firstColor.g, secondColor.g);
 	const ratioB = getStepRation(realSteps, firstColor.b, secondColor.b);
 
-	for (let i = 0; i < steps; i++) {
+	for (const i of range([, steps])) {
 		yield {
-			r: Number.parseInt(String(firstColor.r + ratioR * i)),
-			g: Number.parseInt(String(firstColor.g + ratioG * i)),
-			b: Number.parseInt(String(firstColor.b + ratioB * i)),
+			r: Math.floor(firstColor.r + ratioR * i),
+			g: Math.floor(firstColor.g + ratioG * i),
+			b: Math.floor(firstColor.b + ratioB * i),
 		};
 	}
 }
 
-export { fromFirstToSecondColor };
+const createGradient = (
+	firstColor: RgbColor,
+	secondColor: RgbColor,
+	steps: number,
+) => {
+	const colors = [];
+	for (const color of fromFirstToSecondColor(firstColor, secondColor, steps)) {
+		colors.push(color);
+	}
+
+	return colors;
+};
+
+const colorToString = (color: RgbColor) =>
+	`rgb(${color.r}, ${color.g}, ${color.b})`;
+
+export { fromFirstToSecondColor, createGradient, colorToString };

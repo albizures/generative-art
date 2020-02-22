@@ -52,14 +52,14 @@ describe('create', () => {
 		).toThrowError("Name already used: 'duplicate'");
 	});
 
-	test('executes paint and setup right away', () => {
+	test('Piece.attach executes setup and paint', () => {
 		const paint = jest.fn();
 		const setup = jest.fn();
 		create({
 			name: 'test-create',
 			paint,
 			setup,
-		});
+		}).attach(document.body);
 
 		expect(paint).toHaveBeenCalledTimes(1);
 		expect(setup).toHaveBeenCalledTimes(1);

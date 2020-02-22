@@ -3,6 +3,7 @@ import { Vector } from '../types';
 import { background } from '../utils/canvas';
 import { getRandomItem } from '../utils';
 import { cyberpunk } from '../palettes';
+import { range } from '../utils/range';
 
 type Lines = Vector[][];
 
@@ -48,11 +49,11 @@ const createLines = (gap: number, offset: number) => {
 const drawLines = (lines: Lines) => {
 	let odd = true;
 
-	for (let y = 0; y < lines.length - 1; y++) {
+	for (const y of range([, lines.length - 1])) {
 		odd = !odd;
 		const dotLine = [];
 
-		for (let i = 0; i < lines[y].length; i++) {
+		for (const i of range([, lines[y].length])) {
 			if (odd) {
 				dotLine.push(lines[y][i]);
 				dotLine.push(lines[y + 1][i]);
@@ -62,7 +63,7 @@ const drawLines = (lines: Lines) => {
 			}
 		}
 
-		for (let i = 0; i < dotLine.length - 2; i++) {
+		for (const i of range([, dotLine.length - 2])) {
 			drawTriangle(dotLine[i], dotLine[i + 1], dotLine[i + 2]);
 		}
 	}
