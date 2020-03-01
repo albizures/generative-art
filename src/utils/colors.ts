@@ -1,6 +1,6 @@
 import { range } from './range';
 
-interface RgbColor {
+export interface RgbColor {
 	r: number;
 	b: number;
 	g: number;
@@ -34,7 +34,7 @@ const createGradient = (
 	firstColor: RgbColor,
 	secondColor: RgbColor,
 	steps: number,
-) => {
+): RgbColor[] => {
 	const colors = [];
 	for (const color of fromFirstToSecondColor(firstColor, secondColor, steps)) {
 		colors.push(color);

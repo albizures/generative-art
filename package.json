@@ -30,6 +30,6 @@
 	"dependencies": {
 		"@plata/core": "^0.0.6",
 		"@plata/prop-events": "^0.0.5",
-		"p5": "^0.10.2"
+		"p5": "^1.0.0"
 	}
 }
