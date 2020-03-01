@@ -9,7 +9,7 @@ interface Settings {
 	steps: number;
 }
 
-const draw = (position: Vector, size: Size) => {
+const drawLine = (position: Vector, size: Size) => {
 	const context = Piece.useContext();
 	const leftToRight = Math.random() >= 0.5;
 
@@ -32,21 +32,21 @@ const draw = (position: Vector, size: Size) => {
 	}
 };
 
-const paint = () => {
+const draw = () => {
 	const { width, height } = Piece.useSize();
 	const { steps } = Piece.useSettings<Settings>();
 	background('black');
 
 	for (const y of range([, height], steps)) {
 		for (const x of range([, width], steps)) {
-			draw({ x, y }, { width: steps, height: steps });
+			drawLine({ x, y }, { width: steps, height: steps });
 		}
 	}
 };
 
 Piece.create<Settings>({
 	name: '1',
-	paint,
+	draw,
 	settings: {
 		steps: 20,
 	},

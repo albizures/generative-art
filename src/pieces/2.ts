@@ -47,7 +47,7 @@ const createLines = (step: number): Lines => {
 	return lines;
 };
 
-const paintLines = (lines: Lines) => {
+const drawLines = (lines: Lines) => {
 	const context = Piece.useContext();
 	const colors = fromFirstToSecondColor(firstColor, secondColor, lines.length);
 	background('black');
@@ -73,14 +73,14 @@ const paintLines = (lines: Lines) => {
 	}
 };
 
-const paint = () => {
+const draw = () => {
 	const step = 10;
 	const lines = createLines(step);
 
-	paintLines(lines);
+	drawLines(lines);
 };
 
 Piece.create({
 	name: '2',
-	paint,
+	draw,
 });

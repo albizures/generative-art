@@ -8,7 +8,6 @@ interface PieceConfig<T, S> {
 	name: string;
 	size?: PieceSize;
 	setup?: () => void;
-	paint?: () => void;
 	draw?: () => void;
 	update?: (state: S) => S;
 	state?: S;
@@ -102,7 +101,7 @@ const create = <T extends object, S extends object = {}>(
 ) => {
 	const {
 		setup = noop,
-		paint,
+
 		size: rawSize = 320,
 		name,
 		settings,
@@ -151,20 +150,23 @@ const create = <T extends object, S extends object = {}>(
 	const piece = {
 		attach(parent: Element) {
 			parent.appendChild(container);
-			const hasDraw = !!draw;
 
 			new p5((sketch: p5) => {
 				context = sketch;
 				context.setup = () => {
 					context.createCanvas(size.width, size.height);
-					if (!hasDraw) {
+					if (!draw) {
 						context.noLoop();
 					}
-					run([defaultSetup, setup, paint].filter(Boolean), data);
+					run([defaultSetup, setup, draw].filter(Boolean), data);
 				};
 
-				if (hasDraw) {
-					const updateState = () => (data.state = update(data.state));
+				if (draw) {
+					const updateState = () => {
+						if (typeof update === 'function') {
+							data.state = update(data.state);
+						}
+					};
 					context.draw = () => {
 						run([updateState, draw], data);
 					};
@@ -175,7 +177,7 @@ const create = <T extends object, S extends object = {}>(
 			Object.assign(data.settings, { [settingName]: value });
 			setLocalSetting(name, settingName, value);
 
-			run([clean, defaultSetup, setup, paint].filter(Boolean), data);
+			run([clean, defaultSetup, setup, draw].filter(Boolean), data);
 		},
 	};
 

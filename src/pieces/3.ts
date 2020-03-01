@@ -8,10 +8,6 @@ const squareSize = 30;
 const offset = 10;
 const size = squareSize * 10 + offset * 2;
 
-const setup = () => {
-	background('black');
-};
-
 const drawRect = (width: number, height: number) => {
 	const context = Piece.useContext();
 	context.noFill();
@@ -19,8 +15,9 @@ const drawRect = (width: number, height: number) => {
 	context.rect(0, 0, width, height);
 };
 
-const paint = () => {
+const setup = () => {
 	const context = Piece.useContext();
+	background('black');
 
 	const randomDisplacement = 15;
 	const rotateMultiplier = 20;
@@ -51,6 +48,5 @@ const paint = () => {
 Piece.create({
 	name: '3',
 	size: size,
-	paint,
 	setup,
 });
