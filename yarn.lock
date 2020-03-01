@@ -1053,6 +1053,16 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
+"@plata/core@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@plata/core/-/core-0.0.6.tgz#da630c5919b8c4eea6cec75a1b4ec84d6a33a369"
+  integrity sha512-Fl07TC3QNJwFs2HaxtL4F0I6aIngtXPh1F911jXqQ1HA0nSwCslfjZLfDvFyOK/sN0/IMc39RnrdnfIY6NnjLA==
+
+"@plata/prop-events@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@plata/prop-events/-/prop-events-0.0.5.tgz#ce68ef63f439423663ecc32ea5f99a44292e5544"
+  integrity sha512-vNcmaEUOcJXnJdaYJOl0eMPawVF6h0QTGRZLRoV3Dj0CnPyaAc+/7Y2Moy9GWlUlAFM5Ov1h5yRDUVevV9S5UA==
+
 "@sinonjs/commons@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.7.0.tgz#f90ffc52a2e519f018b13b6c4da03cbff36ebed6"

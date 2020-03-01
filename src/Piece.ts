@@ -174,7 +174,6 @@ const create = <T extends object, S extends object = {}>(
 		updateSetting(settingName: string, value: unknown) {
 			Object.assign(data.settings, { [settingName]: value });
 			setLocalSetting(name, settingName, value);
-			console.log(name);
 
 			run([clean, defaultSetup, setup, paint].filter(Boolean), data);
 		},
