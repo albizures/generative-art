@@ -73,7 +73,7 @@ const drawLines = (lines: Lines) => {
 	}
 };
 
-const draw = () => {
+const setup = () => {
 	const step = 10;
 	const lines = createLines(step);
 
@@ -82,5 +82,5 @@ const draw = () => {
 
 Piece.create({
 	name: '2',
-	draw,
+	setup,
 });

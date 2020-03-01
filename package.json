@@ -21,6 +21,7 @@
 		"@babel/preset-typescript": "^7.8.3",
 		"@types/jest": "^25.1.2",
 		"@types/p5": "^0.9.0",
+		"@types/page": "^1.8.0",
 		"babel-jest": "^25.1.0",
 		"jest": "^25.1.0",
 		"jest-canvas-mock": "^2.2.0",
@@ -30,6 +31,7 @@
 	"dependencies": {
 		"@plata/core": "^0.0.6",
 		"@plata/prop-events": "^0.0.5",
-		"p5": "^1.0.0"
+		"p5": "^1.0.0",
+		"page": "^1.11.5"
 	}
 }

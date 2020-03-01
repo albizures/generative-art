@@ -32,7 +32,7 @@ const drawLine = (position: Vector, size: Size) => {
 	}
 };
 
-const draw = () => {
+const setup = () => {
 	const { width, height } = Piece.useSize();
 	const { steps } = Piece.useSettings<Settings>();
 	background('black');
@@ -46,7 +46,7 @@ const draw = () => {
 
 Piece.create<Settings>({
 	name: '1',
-	draw,
+	setup,
 	settings: {
 		steps: 20,
 	},

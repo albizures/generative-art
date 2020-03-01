@@ -69,7 +69,7 @@ const drawSquare = (
 	);
 };
 
-const draw = () => {
+const setup = () => {
 	const context = Piece.useContext();
 	const { width, height } = Piece.useSize();
 	const { numberOfTiles, directions } = Piece.useSettings<Settings>();
@@ -106,7 +106,7 @@ const draw = () => {
 
 Piece.create<Settings>({
 	name: '7',
-	draw,
+	setup,
 	settings: {
 		minSize: 3,
 		numberOfTiles: 5,
