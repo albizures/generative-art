@@ -1,4 +1,5 @@
-import h, { append, replaceContent, setStyles } from './utils/h';
+import '@plata/prop-events';
+import * as P from '@plata/core';
 import { Pieces, PiecesData, PieceData, Piece } from './Piece';
 
 const createSettingInput = (piece: Piece, data: PieceData) => {
@@ -14,45 +15,59 @@ const createSettingInput = (piece: Piece, data: PieceData) => {
 	const keys = Object.keys(settings);
 
 	return keys.map((setting) => {
+		const ref = P.createRef<HTMLInputElement>();
 		const id = data.name + '-' + setting;
 		const value = settings[setting];
 		const type = typeof value;
-		const onChange = (event: Event) => {
-			const input = event.target as HTMLInputElement;
 
-			piece.updateSetting(
-				setting,
-				type === 'number' ? Number(input.value) : input.value,
-			);
+		const debounce = (fn: Function, wait: number) => {
+			let timer: number;
+			return (...args: any[]) => {
+				clearTimeout(timer);
+
+				timer = setTimeout(() => {
+					fn(...args);
+				}, wait);
+			};
 		};
+
+		P.on(
+			ref,
+			'keyup',
+			debounce((event: P.Event<HTMLInputElement>) => {
+				piece.updateSetting(
+					setting,
+					type === 'number' ? Number(event.target.value) : event.target.value,
+				);
+			}, 200),
+		);
 
 		return (
 			<div>
 				<label htmlFor={id}>{setting}</label>
-				<input onChange={onChange} type={type} id={id} value={value} />
+				<input ref={ref} type={type} id={id} value={String(value)} />
 			</div>
 		);
 	});
 };
 
-const createSettingPanel = (pieces: Pieces, piecesData: PiecesData) => {
+interface Props {
+	pieces: Pieces;
+	piecesData: PiecesData;
+}
+
+const SettingPanel = (props: Props) => {
+	const { pieces, piecesData } = props;
 	const keys = Array.from(pieces.keys());
 	const defaultNamePiece = keys[0];
-
-	const settingsContainer = (
-		<div>
-			{createSettingInput(
-				pieces.get(defaultNamePiece),
-				piecesData.get(defaultNamePiece),
-			)}
-		</div>
-	);
+	const settingsContainerRef = P.createRef<HTMLDivElement>();
+	const panelRef = P.createRef<HTMLDivElement>();
 
 	const onChange = (event: Event) => {
 		const select = event.target as HTMLSelectElement;
 
-		replaceContent(
-			settingsContainer,
+		P.replaceContent(
+			settingsContainerRef,
 			createSettingInput(
 				pieces.get(select.value),
 				piecesData.get(select.value),
@@ -60,18 +75,7 @@ const createSettingPanel = (pieces: Pieces, piecesData: PiecesData) => {
 		);
 	};
 
-	const panel = (
-		<div>
-			<select onChange={onChange} value={keys[0]}>
-				{keys.map((name) => (
-					<option value={name}>{name}</option>
-				))}
-			</select>
-			{settingsContainer}
-		</div>
-	);
-
-	setStyles(panel, {
+	P.setStyles(panelRef, {
 		position: 'fixed',
 		bottom: '0px',
 		width: '100%',
@@ -79,7 +83,28 @@ const createSettingPanel = (pieces: Pieces, piecesData: PiecesData) => {
 		boxShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
 	});
 
-	append(panel, document.body);
+	return (
+		<div ref={panelRef}>
+			<select onChange={onChange} value={keys[0]}>
+				{keys.map((name) => (
+					<option value={name}>{name}</option>
+				))}
+			</select>
+			<div ref={settingsContainerRef}>
+				{createSettingInput(
+					pieces.get(defaultNamePiece),
+					piecesData.get(defaultNamePiece),
+				)}
+			</div>
+		</div>
+	);
+};
+
+const createSettingPanel = (pieces: Pieces, piecesData: PiecesData) => {
+	P.render(
+		<SettingPanel pieces={pieces} piecesData={piecesData} />,
+		document.body,
+	);
 };
 
 export { createSettingPanel };

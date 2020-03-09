@@ -1,19 +1,16 @@
 import './pieces/*.ts';
 import { pieces, piecesData } from './Piece';
+import page from 'page';
 
-const list = Array.from(pieces).sort(([a], [b]) => {
-	if (a > b) {
-		return -1;
-	}
-	if (b > a) {
-		return 1;
-	}
-	return 0;
+const wall = document.getElementById('wall');
+
+page('/p/:id', (event) => {
+	console.log('id', event.params.id);
+
+	pieces.get(event.params.id).attach(wall);
 });
 
-const [wall] = document.getElementsByClassName('wall');
-
-list.forEach(([, item]) => item.attach(wall));
+page();
 
 const showSettingsPanel = () => {
 	import('./settings').then(({ createSettingPanel }) => {

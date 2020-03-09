@@ -1053,6 +1053,16 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
+"@plata/core@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@plata/core/-/core-0.0.6.tgz#da630c5919b8c4eea6cec75a1b4ec84d6a33a369"
+  integrity sha512-Fl07TC3QNJwFs2HaxtL4F0I6aIngtXPh1F911jXqQ1HA0nSwCslfjZLfDvFyOK/sN0/IMc39RnrdnfIY6NnjLA==
+
+"@plata/prop-events@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@plata/prop-events/-/prop-events-0.0.5.tgz#ce68ef63f439423663ecc32ea5f99a44292e5544"
+  integrity sha512-vNcmaEUOcJXnJdaYJOl0eMPawVF6h0QTGRZLRoV3Dj0CnPyaAc+/7Y2Moy9GWlUlAFM5Ov1h5yRDUVevV9S5UA==
+
 "@sinonjs/commons@^1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.7.0.tgz#f90ffc52a2e519f018b13b6c4da03cbff36ebed6"
@@ -1130,6 +1140,11 @@
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@types/p5/-/p5-0.9.0.tgz#aea0afe6ab2f7368b000165a27869cee8f9060a7"
   integrity sha512-GhI0ctGdKlnf1oUEYqE+sTWuGHhjQCZXQPxazdI9Lx2eE6z7qO6T55FGFenOY3wpL8jSzLWRmt83RHGblr4AWg==
+
+"@types/page@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@types/page/-/page-1.8.0.tgz#7d945cc687ab05eb2b0e488dbbfbb03cfdc60d3f"
+  integrity sha512-zw/pd7YdXIe4YEeMqNnos0od+7ccLL+bBx6twGPDTtCITHren6kUvqWYajuNSCf0rk79jJEiFSSWNIHUAXKDoA==
 
 "@types/q@^1.5.1":
   version "1.5.2"
@@ -4692,10 +4707,17 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
 
-p5@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/p5/-/p5-0.10.2.tgz#9437b28e803b9c8a94383c6b5f4d05b13603e1cc"
-  integrity sha512-kZnC7JllCEnEUTB3sv2iETUg1ulNvB60h3MHb63u7W/nCJc3XIlMGXcKk28cuezdQ7TOlKScm0qmWCsol+302Q==
+p5@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p5/-/p5-1.0.0.tgz#d27c77c1c11450ede27af4614a5d24470ffab0c4"
+  integrity sha512-SYYc6NSHA/mMoF00SdI39FmhifMWl0B74/Bg3T793v+KOAWgXsBfr7snv9cjHFqpcmjtJMuZSOoA55qAETCu1w==
+
+page@^1.11.5:
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/page/-/page-1.11.5.tgz#0cfc8608be337f26f4377f31df0787aef0ca1af7"
+  integrity sha512-0JXUHc7Y8p1cPJQbhZSwaKO3p+bU3Rgny+OM5gJMKHWHvJKan/fsE5RUzEjRQolv9DzPOSVWfSOHz0lLxK19eA==
+  dependencies:
+    path-to-regexp "~1.2.1"
 
 pako@^0.2.5:
   version "0.2.9"
@@ -4853,6 +4875,13 @@ path-parse@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+
+path-to-regexp@~1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.2.1.tgz#b33705c140234d873c8721c7b9fd8b541ed3aff9"
+  integrity sha1-szcFwUAjTYc8hyHHuf2LVB7Tr/k=
+  dependencies:
+    isarray "0.0.1"
 
 pbkdf2@^3.0.3:
   version "3.0.17"

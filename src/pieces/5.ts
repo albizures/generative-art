@@ -16,14 +16,7 @@ const secondColor = {
 	b: 255,
 };
 
-const setup = () => {
-	const context = Piece.useContext();
-	context.strokeWeight(4);
-	context.strokeCap(context.ROUND);
-	background('black');
-};
-
-const draw = (
+const drawLine = (
 	{ x, y }: Vector,
 	{ width, height }: Size,
 	positions: number[],
@@ -41,8 +34,11 @@ const draw = (
 	context.pop();
 };
 
-const paint = () => {
+const setup = () => {
 	const context = Piece.useContext();
+	context.strokeWeight(4);
+	context.strokeCap(context.ROUND);
+	background('black');
 	const { height, width } = Piece.useSize();
 
 	const step = 20;
@@ -67,11 +63,11 @@ const paint = () => {
 			}
 
 			if (y < aThirdOfHeight) {
-				draw(positions, size, [0.5]);
+				drawLine(positions, size, [0.5]);
 			} else if (y < aThirdOfHeight * 2) {
-				draw(positions, size, [0.2, 0.8]);
+				drawLine(positions, size, [0.2, 0.8]);
 			} else {
-				draw(positions, size, [0.1, 0.5, 0.9]);
+				drawLine(positions, size, [0.1, 0.5, 0.9]);
 			}
 		}
 	}
@@ -79,6 +75,5 @@ const paint = () => {
 
 Piece.create({
 	name: '5',
-	paint,
 	setup,
 });

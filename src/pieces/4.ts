@@ -7,14 +7,6 @@ import { range } from '../utils/range';
 
 type Lines = Vector[][];
 
-const setup = () => {
-	const context = Piece.useContext();
-
-	context.strokeJoin(context.BEVEL);
-	context.strokeCap(context.SQUARE);
-	context.strokeWeight(1);
-};
-
 function drawTriangle(pointA: Vector, pointB: Vector, pointC: Vector) {
 	const context = Piece.useContext();
 
@@ -69,7 +61,12 @@ const drawLines = (lines: Lines) => {
 	}
 };
 
-const paint = () => {
+const setup = () => {
+	const context = Piece.useContext();
+
+	context.strokeJoin(context.BEVEL);
+	context.strokeCap(context.SQUARE);
+	context.strokeWeight(1);
 	const { width } = Piece.useSize();
 	background('black');
 
@@ -82,6 +79,5 @@ const paint = () => {
 
 Piece.create({
 	name: '4',
-	paint,
 	setup,
 });

@@ -3,16 +3,16 @@ import { Size } from './types';
 import { clean } from './utils/canvas';
 
 type PieceSize = number | Size;
-
+// TODO: add an auto clean
 interface PieceConfig<T, S> {
 	name: string;
+	type?: p5.WEBGL | p5.P2D;
 	size?: PieceSize;
-	setup?: () => void;
-	paint?: () => void;
+	setup?: () => void | S;
 	draw?: () => void;
 	update?: (state: S) => S;
 	state?: S;
-	settings?: T;
+	settings?: T | ((context: p5) => T);
 }
 
 const createDiv = (className: string) => {
@@ -43,7 +43,7 @@ export interface Piece {
 
 export interface PieceData {
 	context: p5;
-	size: Size;
+	sizeAndCenter: Size & { centerX: number; centerY: number };
 	name: string;
 	state: unknown;
 	settings?: unknown;
@@ -102,7 +102,7 @@ const create = <T extends object, S extends object = {}>(
 ) => {
 	const {
 		setup = noop,
-		paint,
+		type,
 		size: rawSize = 320,
 		name,
 		settings,
@@ -139,11 +139,12 @@ const create = <T extends object, S extends object = {}>(
 		get context() {
 			return context;
 		},
-		size,
-		settings: {
-			...settings,
-			...localSettings,
+		sizeAndCenter: {
+			...size,
+			centerX: size.width / 2,
+			centerY: size.height / 2,
 		},
+		settings: {},
 	};
 
 	piecesData.set(name, data);
@@ -151,20 +152,41 @@ const create = <T extends object, S extends object = {}>(
 	const piece = {
 		attach(parent: Element) {
 			parent.appendChild(container);
-			const hasDraw = !!draw;
 
 			new p5((sketch: p5) => {
 				context = sketch;
 				context.setup = () => {
-					context.createCanvas(size.width, size.height);
-					if (!hasDraw) {
+					context.createCanvas(size.width, size.height, type);
+					if (!draw) {
 						context.noLoop();
 					}
-					run([defaultSetup, setup, paint].filter(Boolean), data);
+
+					data.settings = {
+						...(typeof settings === 'object' ? settings : settings(context)),
+						...localSettings,
+					};
+
+					run(
+						[
+							defaultSetup,
+							() => {
+								const state = setup();
+								if (state) {
+									data.state = state;
+								}
+							},
+							draw,
+						].filter(Boolean),
+						data,
+					);
 				};
 
-				if (hasDraw) {
-					const updateState = () => (data.state = update(data.state));
+				if (draw) {
+					const updateState = () => {
+						if (typeof update === 'function') {
+							data.state = update(data.state);
+						}
+					};
 					context.draw = () => {
 						run([updateState, draw], data);
 					};
@@ -172,11 +194,28 @@ const create = <T extends object, S extends object = {}>(
 			}, frame);
 		},
 		updateSetting(settingName: string, value: unknown) {
+			if (value === data.settings[settingName]) {
+				return;
+			}
+
 			Object.assign(data.settings, { [settingName]: value });
 			setLocalSetting(name, settingName, value);
-			console.log(name);
 
-			run([clean, defaultSetup, setup, paint].filter(Boolean), data);
+			run(
+				[
+					clean,
+					defaultSetup,
+					() => {
+						const state = setup();
+						if (state) {
+							data.state = state;
+						}
+					},
+					,
+					draw,
+				].filter(Boolean),
+				data,
+			);
 		},
 	};
 
@@ -210,10 +249,15 @@ const useState = <S>() => {
 
 const useSize = () => {
 	checkCurrentPiece('useSize');
-	return currentPieceData.size;
+	return currentPieceData.sizeAndCenter;
 };
 
+const WEBGL = 'webgl';
+
+export { Vector } from 'p5';
 export {
+	run,
+	WEBGL,
 	create,
 	pieces,
 	piecesData,
@@ -222,3 +266,15 @@ export {
 	useSettings,
 	useState,
 };
+
+const Piece = {
+	create,
+	pieces,
+	piecesData,
+	useContext,
+	useSize,
+	useSettings,
+	useState,
+};
+
+export default Piece;
