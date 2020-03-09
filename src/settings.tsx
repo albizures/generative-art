@@ -15,22 +15,37 @@ const createSettingInput = (piece: Piece, data: PieceData) => {
 	const keys = Object.keys(settings);
 
 	return keys.map((setting) => {
+		const ref = P.createRef<HTMLInputElement>();
 		const id = data.name + '-' + setting;
 		const value = settings[setting];
 		const type = typeof value;
-		const onChange = (event: Event) => {
-			const input = event.target as HTMLInputElement;
 
-			piece.updateSetting(
-				setting,
-				type === 'number' ? Number(input.value) : input.value,
-			);
+		const debounce = (fn: Function, wait: number) => {
+			let timer: number;
+			return (...args: any[]) => {
+				clearTimeout(timer);
+
+				timer = setTimeout(() => {
+					fn(...args);
+				}, wait);
+			};
 		};
+
+		P.on(
+			ref,
+			'keyup',
+			debounce((event: P.Event<HTMLInputElement>) => {
+				piece.updateSetting(
+					setting,
+					type === 'number' ? Number(event.target.value) : event.target.value,
+				);
+			}, 200),
+		);
 
 		return (
 			<div>
 				<label htmlFor={id}>{setting}</label>
-				<input onChange={onChange} type={type} id={id} value={String(value)} />
+				<input ref={ref} type={type} id={id} value={String(value)} />
 			</div>
 		);
 	});

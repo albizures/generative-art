@@ -1,11 +1,30 @@
+import Piece, { Vector } from '../Piece';
+
 const getRandomItem = <T>(items: T[]) => {
-  return items[Math.floor(Math.random() * items.length)];
+	return items[Math.floor(Math.random() * items.length)];
 };
 
 const trueOrFalse = () => Math.random() < 0.5;
 const plusOrMinus = () => (trueOrFalse() ? -1 : 1);
 
 const distanceToCenter = (size: number, point: number) =>
-  Math.abs(point - size / 2);
+	Math.abs(point - size / 2);
 
-export { getRandomItem, plusOrMinus, trueOrFalse, distanceToCenter };
+const drawPoint = (point: Vector) => {
+	const context = Piece.useContext();
+	context.point(point.x, point.y, point.z);
+};
+
+const drawLine = (start: Vector, end: Vector) => {
+	const context = Piece.useContext();
+	context.line(start.x, start.y, start.z, end.x, end.y, end.z);
+};
+
+export {
+	getRandomItem,
+	plusOrMinus,
+	trueOrFalse,
+	distanceToCenter,
+	drawLine,
+	drawPoint,
+};

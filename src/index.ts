@@ -5,6 +5,8 @@ import page from 'page';
 const wall = document.getElementById('wall');
 
 page('/p/:id', (event) => {
+	console.log('id', event.params.id);
+
 	pieces.get(event.params.id).attach(wall);
 });
 

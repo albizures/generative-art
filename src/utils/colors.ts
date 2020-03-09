@@ -15,8 +15,7 @@ function* fromFirstToSecondColor(
 	secondColor: RgbColor,
 	steps: number,
 ) {
-	// including the final color
-	const realSteps = steps - 1;
+	const realSteps = steps;
 	const ratioR = getStepRation(realSteps, firstColor.r, secondColor.r);
 	const ratioG = getStepRation(realSteps, firstColor.g, secondColor.g);
 	const ratioB = getStepRation(realSteps, firstColor.b, secondColor.b);
@@ -28,6 +27,11 @@ function* fromFirstToSecondColor(
 			b: Math.floor(firstColor.b + ratioB * i),
 		};
 	}
+
+	// including the final color
+	yield {
+		...secondColor,
+	};
 }
 
 const createGradient = (
