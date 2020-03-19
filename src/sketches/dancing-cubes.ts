@@ -1,8 +1,8 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 import { background } from '../utils/canvas';
 import { getRandomItem } from '../utils';
 import { createGradient, colorToString, RgbColor } from '../utils/colors';
-import { Vector } from '../types';
+import { SimpleVector } from '../types';
 import { range } from '../utils/range';
 
 const firstColor = {
@@ -29,17 +29,17 @@ interface Settings {
 }
 
 interface InceptionSquare {
-	origin: Vector;
+	origin: SimpleVector;
 	steps: number;
 	gradient: RgbColor[];
-	direction: Vector;
+	direction: SimpleVector;
 	size: number;
 }
 
 const drawSquare = (square: InceptionSquare, stepsLeft: number) => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	const { gradient, size: startSize, direction, steps } = square;
-	const { minSize } = Piece.useSettings();
+	const { minSize } = Pieza.useSettings();
 
 	if (stepsLeft < 0) {
 		return;
@@ -57,7 +57,7 @@ const drawSquare = (square: InceptionSquare, stepsLeft: number) => {
 };
 
 const getValidDirection = (currentDirection: number) => {
-	const { directions } = Piece.useSettings<Settings>();
+	const { directions } = Pieza.useSettings<Settings>();
 
 	let nextDirection = getRandomItem(directions);
 
@@ -88,8 +88,8 @@ function update(state: State) {
 }
 
 const draw = () => {
-	const context = Piece.useContext();
-	const { squares } = Piece.useState<State>();
+	const context = Pieza.useContext();
+	const { squares } = Pieza.useState<State>();
 	context.clear();
 	background('black');
 
@@ -99,9 +99,9 @@ const draw = () => {
 };
 
 const setup = () => {
-	const { numberOfTiles, directions, steps } = Piece.useSettings<Settings>();
-	const { width, height } = Piece.useSize();
-	const context = Piece.useContext();
+	const { numberOfTiles, directions, steps } = Pieza.useSettings<Settings>();
+	const { width, height } = Pieza.useMeasures();
+	const context = Pieza.useContext();
 
 	context.frameRate(5);
 	context.noFill();
@@ -137,7 +137,7 @@ const setup = () => {
 	};
 };
 
-Piece.create<Settings, State>({
+Pieza.create<Settings, State>({
 	name: 'dancing-cubes',
 	setup,
 	draw,

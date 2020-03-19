@@ -1,7 +1,7 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 import { fromFirstToSecondColor } from '../utils/colors';
 import { background } from '../utils/canvas';
-import { Vector, Size } from '../types';
+import { SimpleVector, Size } from '../types';
 import { range } from '../utils/range';
 
 const firstColor = {
@@ -17,11 +17,11 @@ const secondColor = {
 };
 
 const drawLine = (
-	{ x, y }: Vector,
+	{ x, y }: SimpleVector,
 	{ width, height }: Size,
 	positions: number[],
 ) => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	context.push();
 	context.translate(x + width / 2, y + height / 2);
 	context.rotate(Math.random() * 5);
@@ -35,11 +35,11 @@ const drawLine = (
 };
 
 const setup = () => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	context.strokeWeight(4);
 	context.strokeCap(context.ROUND);
 	background('black');
-	const { height, width } = Piece.useSize();
+	const { height, width } = Pieza.useMeasures();
 
 	const step = 20;
 	const aThirdOfHeight = height / 3;
@@ -73,7 +73,7 @@ const setup = () => {
 	}
 };
 
-Piece.create({
+Pieza.create({
 	name: '5',
 	setup,
 });

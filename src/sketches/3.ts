@@ -1,4 +1,4 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 import { background } from '../utils/canvas';
 import { cyberpunk } from '../palettes';
 import { getRandomItem, plusOrMinus } from '../utils';
@@ -9,14 +9,14 @@ const offset = 10;
 const size = squareSize * 10 + offset * 2;
 
 const drawRect = (width: number, height: number) => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	context.noFill();
 	context.stroke(getRandomItem(cyberpunk));
 	context.rect(0, 0, width, height);
 };
 
 const setup = () => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	background('black');
 
 	const randomDisplacement = 15;
@@ -45,7 +45,7 @@ const setup = () => {
 	}
 };
 
-Piece.create({
+Pieza.create({
 	name: '3',
 	size: size,
 	setup,

@@ -1,14 +1,18 @@
-import * as Piece from '../Piece';
-import { Vector } from '../types';
+import * as Pieza from 'pieza';
+import { SimpleVector } from '../types';
 import { background } from '../utils/canvas';
 import { getRandomItem } from '../utils';
 import { cyberpunk } from '../palettes';
 import { range } from '../utils/range';
 
-type Lines = Vector[][];
+type Lines = SimpleVector[][];
 
-function drawTriangle(pointA: Vector, pointB: Vector, pointC: Vector) {
-	const context = Piece.useContext();
+function drawTriangle(
+	pointA: SimpleVector,
+	pointB: SimpleVector,
+	pointC: SimpleVector,
+) {
+	const context = Pieza.useContext();
 
 	context.fill(getRandomItem(cyberpunk));
 	context.triangle(pointA.x, pointA.y, pointB.x, pointB.y, pointC.x, pointC.y);
@@ -16,7 +20,7 @@ function drawTriangle(pointA: Vector, pointB: Vector, pointC: Vector) {
 }
 
 const createLines = (gap: number, offset: number) => {
-	const { width, height } = Piece.useSize();
+	const { width, height } = Pieza.useMeasures();
 	const lines = [];
 	let odd = false;
 
@@ -62,12 +66,12 @@ const drawLines = (lines: Lines) => {
 };
 
 const setup = () => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 
 	context.strokeJoin(context.BEVEL);
 	context.strokeCap(context.SQUARE);
 	context.strokeWeight(1);
-	const { width } = Piece.useSize();
+	const { width } = Pieza.useMeasures();
 	background('black');
 
 	const offset = 30;
@@ -77,7 +81,7 @@ const setup = () => {
 	drawLines(lines);
 };
 
-Piece.create({
+Pieza.create({
 	name: '4',
 	setup,
 });

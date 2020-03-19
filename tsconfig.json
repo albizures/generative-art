@@ -4,10 +4,6 @@
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"lib": ["es2015", "es2017", "dom", "dom.iterable"],
-		"typeRoots": ["./src/types", "./node_modules/@types"],
-		"esModuleInterop": true,
-		"jsx": "react",
-		"jsxFactory": "P.create"
-	},
-	"exclude": ["node_modules", "typings"]
+		"esModuleInterop": true
+	}
 }

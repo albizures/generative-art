@@ -1,8 +1,8 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 import { background } from '../utils/canvas';
 import { fromFirstToSecondColor } from '../utils/colors';
 import { distanceToCenter } from '../utils';
-import { Vector } from '../types';
+import { SimpleVector } from '../types';
 import { range } from '../utils/range';
 
 const firstColor = {
@@ -17,10 +17,10 @@ const secondColor = {
 	b: 154,
 };
 
-type Lines = Vector[][];
+type Lines = SimpleVector[][];
 
 const createLines = (step: number): Lines => {
-	const { width, height } = Piece.useSize();
+	const { width, height } = Pieza.useMeasures();
 	const lines = [];
 
 	for (const i of range([step + 45, , height - step], step)) {
@@ -48,7 +48,7 @@ const createLines = (step: number): Lines => {
 };
 
 const drawLines = (lines: Lines) => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	const colors = fromFirstToSecondColor(firstColor, secondColor, lines.length);
 	background('black');
 
@@ -80,7 +80,7 @@ const setup = () => {
 	drawLines(lines);
 };
 
-Piece.create({
+Pieza.create({
 	name: '2',
 	setup,
 });
