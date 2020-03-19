@@ -1,8 +1,8 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 import { background } from '../utils/canvas';
 import { getRandomItem } from '../utils';
 import { createGradient, colorToString, RgbColor } from '../utils/colors';
-import { Vector } from '../types';
+import { SimpleVector } from '../types';
 import { range } from '../utils/range';
 
 const firstColor = {
@@ -24,19 +24,19 @@ interface Settings {
 }
 
 interface Square {
-	origin: Vector;
+	origin: SimpleVector;
 	stepsLeft: number;
 	size: number;
 }
 
 const drawSquare = (
 	square: Square,
-	movement: Vector,
+	movement: SimpleVector,
 	gradient: RgbColor[],
 	startSize: number,
 ) => {
-	const context = Piece.useContext();
-	const { minSize } = Piece.useSettings();
+	const context = Pieza.useContext();
+	const { minSize } = Pieza.useSettings();
 	const steps = gradient.length;
 
 	context.noFill();
@@ -70,9 +70,9 @@ const drawSquare = (
 };
 
 const setup = () => {
-	const context = Piece.useContext();
-	const { width, height } = Piece.useSize();
-	const { numberOfTiles, directions } = Piece.useSettings<Settings>();
+	const context = Pieza.useContext();
+	const { width, height } = Pieza.useMeasures();
+	const { numberOfTiles, directions } = Pieza.useSettings<Settings>();
 	background('black');
 	context.strokeWeight(2);
 
@@ -104,7 +104,7 @@ const setup = () => {
 	}
 };
 
-Piece.create<Settings>({
+Pieza.create<Settings>({
 	name: '7',
 	setup,
 	settings: {

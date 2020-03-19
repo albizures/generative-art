@@ -1,11 +1,8 @@
-import Piece, { WEBGL } from '../Piece';
-import { getTailHead } from '../components/withTail';
+import * as Pieza from 'pieza';
 import { background } from '../utils/canvas';
-import { drawLine, drawPoint } from '../utils';
-import { createCube, Cube, drawEdges } from '../entities/cube';
+import { createCube, Cube } from '../entities/cube';
 import { Snake, createSnake, updateSnake, drawSnake } from '../entities/snake';
 import { range } from '../utils/range';
-import p5 from 'p5';
 
 interface Settings {
 	snakeLength: number;
@@ -25,8 +22,8 @@ const setup = (): State => {
 		changeTargetEach,
 		snakeLength,
 		numberOfSnakes,
-	} = Piece.useSettings<Settings>();
-	const context = Piece.useContext();
+	} = Pieza.useSettings<Settings>();
+	const context = Pieza.useContext();
 	context.angleMode(context.DEGREES);
 	background('black');
 
@@ -51,10 +48,10 @@ const setup = (): State => {
 };
 
 const update = (state: State) => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	const { snakes, changeTimer } = state;
 	const newState: Partial<State> = {};
-	const { cube, changeTargetEach } = Piece.useSettings<Settings>();
+	const { cube, changeTargetEach } = Pieza.useSettings<Settings>();
 
 	for (const snake of snakes) {
 		updateSnake(snake);
@@ -73,9 +70,9 @@ const update = (state: State) => {
 };
 
 const draw = () => {
-	const context = Piece.useContext();
-	const { snakes } = Piece.useState<State>();
-	const { cube } = Piece.useSettings<Settings>();
+	const context = Pieza.useContext();
+	const { snakes } = Pieza.useState<State>();
+	const { cube } = Pieza.useSettings<Settings>();
 	background('black');
 
 	context.rotateY(context.mouseX);
@@ -112,9 +109,9 @@ const secondColor = {
 	b: 154,
 };
 
-Piece.create<Settings, State>({
+Pieza.create<Settings, State>({
 	name: '8',
-	type: WEBGL,
+	type: Pieza.WEBGL,
 	draw,
 	update,
 	setup,

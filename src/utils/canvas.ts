@@ -1,13 +1,13 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 
 const clean = () => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 
 	context.clear();
 };
 
 const background = (color: string) => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 
 	context.background('black');
 };

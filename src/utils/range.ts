@@ -8,7 +8,8 @@ const range = (
 	stepBy = 1,
 	ignoreInfinityRangeError = false,
 ): Iterable<number> => {
-	const realTo = to ?? inclusiveTo + 1;
+	const realTo = typeof to === 'number' ? to : inclusiveTo + 1;
+	console.log(realTo);
 
 	if (!(typeof realTo === 'number') || Number.isNaN(realTo)) {
 		console.warn(

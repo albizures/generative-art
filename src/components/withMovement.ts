@@ -1,4 +1,4 @@
-import { Vector } from '../Piece';
+import { Vector } from 'p5';
 
 export interface WithMovement {
 	velocity: Vector;

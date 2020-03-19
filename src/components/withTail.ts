@@ -1,4 +1,5 @@
-import Piece, { Vector } from '../Piece';
+import { Vector } from 'p5';
+import * as Pieza from 'pieza';
 import { RgbColor, colorToString, createGradient } from '../utils/colors';
 import { range } from '../utils/range';
 
@@ -35,7 +36,7 @@ const moveTailHead = <T extends WithTail>(
 };
 
 const drawTail = <T extends WithTail>(withTail: T): T => {
-	const context = Piece.useContext();
+	const context = Pieza.useContext();
 	const { parts, gradient } = withTail.tail;
 
 	for (const index of range([1, parts.length])) {

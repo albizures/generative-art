@@ -1,4 +1,4 @@
-import * as Piece from '../Piece';
+import * as Pieza from 'pieza';
 import { background } from '../utils/canvas';
 import { range } from '../utils/range';
 import { createGradient, colorToString } from '../utils/colors';
@@ -29,8 +29,8 @@ const secondColor = {
 };
 
 const createCircle = (): Circle => {
-	const { width, height } = Piece.useSize();
-	const { minRadius } = Piece.useSettings<Settings>();
+	const { width, height } = Pieza.useMeasures();
+	const { minRadius } = Pieza.useSettings<Settings>();
 	return {
 		x: Math.floor(Math.random() * width),
 		y: Math.floor(Math.random() * height),
@@ -39,7 +39,7 @@ const createCircle = (): Circle => {
 };
 
 const checkCircle = (circle: Circle, circles: Circle[]): boolean => {
-	const { width, height } = Piece.useSize();
+	const { width, height } = Pieza.useMeasures();
 
 	for (const index of range([, circles.length])) {
 		const otherCircle = circles[index];
@@ -64,7 +64,7 @@ const checkCircle = (circle: Circle, circles: Circle[]): boolean => {
 };
 
 const expandCircle = (circle: Circle, circles: Circle[]) => {
-	const { minRadius, maxRadius } = Piece.useSettings<Settings>();
+	const { minRadius, maxRadius } = Pieza.useSettings<Settings>();
 	for (const radiusSize of range([minRadius, maxRadius])) {
 		circle.radius = radiusSize;
 		if (!checkCircle(circle, circles)) {
@@ -75,9 +75,9 @@ const expandCircle = (circle: Circle, circles: Circle[]) => {
 };
 
 const setup = () => {
-	const context = Piece.useContext();
-	const { height } = Piece.useSize();
-	const { totalCircles, circleCreateAttempts, minRadius } = Piece.useSettings<
+	const context = Pieza.useContext();
+	const { height } = Pieza.useMeasures();
+	const { totalCircles, circleCreateAttempts, minRadius } = Pieza.useSettings<
 		Settings
 	>();
 	background('black');
@@ -108,7 +108,7 @@ const setup = () => {
 	}
 };
 
-Piece.create<Settings>({
+Pieza.create<Settings>({
 	name: '6',
 	setup,
 	settings: {
