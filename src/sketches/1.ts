@@ -39,8 +39,6 @@ const setup = () => {
 
 	for (const y of range([, height], steps)) {
 		for (const x of range([, width], steps)) {
-			console.log('lelele');
-
 			drawLine({ x, y }, { width: steps, height: steps });
 		}
 	}

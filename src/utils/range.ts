@@ -9,7 +9,6 @@ const range = (
 	ignoreInfinityRangeError = false,
 ): Iterable<number> => {
 	const realTo = typeof to === 'number' ? to : inclusiveTo + 1;
-	console.log(realTo);
 
 	if (!(typeof realTo === 'number') || Number.isNaN(realTo)) {
 		console.warn(
