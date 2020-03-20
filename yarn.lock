@@ -814,10 +814,10 @@
     widest-line "^2.0.1"
     wrap-ansi "^4.0.0"
 
-"@pieza/cli@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@pieza/cli/-/cli-0.4.1.tgz#b3a3ff939b0668ebf51c8d39a55193f86b792c7d"
-  integrity sha512-zpy2BNPPW1oml7aWwpzofbTtbb9sw/COl+5l2gsRrRcziKpK7SLhJM8d609AXbRzS49AwujDZr0E8O81j1EYPA==
+"@pieza/cli@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@pieza/cli/-/cli-0.4.2.tgz#5734f33568697db633cd136df1998e24c5fd9469"
+  integrity sha512-ZcqAqHjSf8yywr+C5zddgmjmMTWiFqFiGy6l/as/AVvq5/PNkJGuTs900E0SbQhO1RjYeiRONh0/OAF85n55Dw==
   dependencies:
     "@babel/core" "^7.8.7"
     "@babel/preset-env" "^7.8.7"
@@ -834,10 +834,10 @@
     webpack "^4.42.0"
     webpack-dev-server "^3.10.3"
 
-"@pieza/core@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@pieza/core/-/core-0.2.1.tgz#038bdfed0f9986f5d2fcf946646bc9c5632c55cd"
-  integrity sha512-Qo7NuKgIktHHBSDf9c3pnp9AVhQP+hvNC+wDncesA3+No5jSHVIawAe+JuTvtw/ev5X0wuzzXm6YUDAVQRTp5Q==
+"@pieza/core@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@pieza/core/-/core-0.3.0.tgz#44376b6927379b339a4a92f77ce42315e1611bb3"
+  integrity sha512-5VncNwVDJPrX3qYNyJf4HqCVt2m+AV7fAxPTFs8uZRYE5VPrUd20LyQcM0pz9VqhS7Zy/qm2wtItygPoui/Iug==
   dependencies:
     "@types/dom-mediacapture-record" "^1.0.3"
     "@types/glob" "^7.1.1"
@@ -4000,13 +4000,13 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pieza@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/pieza/-/pieza-0.1.5.tgz#caf9928880bfc1d6f949bad370ff784a13cb84bf"
-  integrity sha512-LxPsFsdirCaEMoPA8NrAm5ebop8GCvCkgB8KQheMJKIFchXN3vRMkTK9quetL4avTKQuLdpL6wXTDFpXqs8OGQ==
+pieza@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/pieza/-/pieza-0.1.6.tgz#0062f8ee03025791bd450670a264f47af5bd79c3"
+  integrity sha512-JGkdHHiQx8cUqFp8yf9GfA91PrPhEkUCNTtoD7w6xbcaSLpsKGbhRy/jdrEZHoJd5tjHoWLhFfzuFcbQV39Jyw==
   dependencies:
-    "@pieza/cli" "^0.4.1"
-    "@pieza/core" "^0.2.1"
+    "@pieza/cli" "^0.4.2"
+    "@pieza/core" "^0.3.0"
 
 pify@^2.0.0:
   version "2.3.0"
