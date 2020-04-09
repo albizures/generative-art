@@ -122,10 +122,7 @@ const update = (state: State): State => {
 
 	lines.forEach((line, index) => {
 		moveTailHead(snakes[index], line.end.copy());
-		const start = line.end
-			.copy()
-			.rotate(lag)
-			.setMag(distanceFromCenter);
+		const start = line.end.copy().rotate(lag).setMag(distanceFromCenter);
 		line.end.add(start.copy().sub(line.start));
 		line.start = start;
 		moveTailHead(snakes[index + lines.length], start);
@@ -142,19 +139,14 @@ const update = (state: State): State => {
 const draw = () => {
 	const context = Pieza.useContext();
 	const { centerX, centerY } = Pieza.useMeasures();
-	const { lines, snakes } = Pieza.useState<State>();
+	const { lines, snakes, lag } = Pieza.useState<State>();
 
 	background('black');
+	context.strokeWeight(6);
 	context.translate(centerX, centerY);
 	context.rotate(context.frameCount);
 
 	for (const line of lines) {
-		// context.point(line.end.x, line.end.y);
-		// context.point(line.start.x, line.start.y);
-		// context.ellipse(line.end.x, line.end.y, line.end.mag());
-		// context.ellipse(line.start.x, line.start.y, line.start.mag());
-		// context.ellipse(line.end.x, line.end.y, line.end.x, line.end.y);
-		// context.ellipse(line.start.x, line.start.y, line.start.x, line.start.y);
 		context.line(line.start.x, line.start.y, line.end.x, line.end.y);
 	}
 
@@ -163,16 +155,17 @@ const draw = () => {
 	}
 };
 
-Pieza.create<Settings, State>({
+export default Pieza.create<Settings, State>({
 	autoClean: true,
 	settings: {
 		maxLag: 90,
 		minLag: -90,
-		lineSize: 100,
-		numberOfLines: 5,
+		lineSize: 300,
+		numberOfLines: 30,
 	},
+	size: 1200,
 	update,
-	name: '1',
+	name: '9',
 	setup,
 	draw,
 });

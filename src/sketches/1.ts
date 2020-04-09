@@ -44,7 +44,7 @@ const setup = () => {
 	}
 };
 
-Pieza.create<Settings>({
+export default Pieza.create<Settings>({
 	name: '1',
 	setup,
 	settings: {

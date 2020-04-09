@@ -137,7 +137,7 @@ const setup = () => {
 	};
 };
 
-Pieza.create<Settings, State>({
+export default Pieza.create<Settings, State>({
 	name: 'dancing-cubes',
 	setup,
 	draw,

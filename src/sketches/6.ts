@@ -108,7 +108,7 @@ const setup = () => {
 	}
 };
 
-Pieza.create<Settings>({
+export default Pieza.create<Settings>({
 	name: '6',
 	setup,
 	settings: {

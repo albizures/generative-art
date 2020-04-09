@@ -80,7 +80,7 @@ const setup = () => {
 	drawLines(lines);
 };
 
-Pieza.create({
+export default Pieza.create({
 	name: '2',
 	setup,
 });

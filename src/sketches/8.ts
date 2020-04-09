@@ -109,7 +109,7 @@ const secondColor = {
 	b: 154,
 };
 
-Pieza.create<Settings, State>({
+export default Pieza.create<Settings, State>({
 	name: '8',
 	type: Pieza.WEBGL,
 	draw,

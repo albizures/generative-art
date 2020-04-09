@@ -73,7 +73,7 @@ const setup = () => {
 	}
 };
 
-Pieza.create({
+export default Pieza.create({
 	name: '5',
 	setup,
 });
