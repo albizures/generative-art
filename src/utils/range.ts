@@ -8,7 +8,7 @@ const range = (
 	stepBy = 1,
 	ignoreInfinityRangeError = false,
 ): Iterable<number> => {
-	const realTo = typeof to === 'number' ? to : inclusiveTo + 1;
+	const realTo = typeof to === 'number' ? to : inclusiveTo + stepBy;
 
 	if (!(typeof realTo === 'number') || Number.isNaN(realTo)) {
 		console.warn(
@@ -37,6 +37,8 @@ const range = (
 	}
 
 	function* iterator(): Iterable<number> {
+		console.log(from, realTo);
+
 		for (let index = from; index < realTo; index += stepBy) {
 			yield index;
 		}
