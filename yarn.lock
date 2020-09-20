@@ -913,10 +913,10 @@
     widest-line "^2.0.1"
     wrap-ansi "^4.0.0"
 
-"@pieza/cli@^0.4.3-alpha.2":
-  version "0.4.3-alpha.2"
-  resolved "https://registry.yarnpkg.com/@pieza/cli/-/cli-0.4.3-alpha.2.tgz#09135d9d6ffd40affbe92e9df2ab76260ab4736b"
-  integrity sha512-++dWgLdKGQnZH77uBF9sYpgZkPtmWTUN6TdsPqfupRlawLIr4t77uV4eK9hozBEB0Yk2WQzS5KFwKe0z/KLl2A==
+"@pieza/cli@^0.5.0-alpha.0":
+  version "0.5.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@pieza/cli/-/cli-0.5.0-alpha.0.tgz#8569afbed32c39c48799134839941ed8d8f4e2f0"
+  integrity sha512-TRaaAS+6k2h1i7RXImrfUzKCJ5AolgIl/deOSBLAuWrk19RkMeorukbbPXmaP6vyX87r26zIX939JlKDcMFCeg==
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/preset-env" "^7.9.0"
@@ -935,10 +935,10 @@
     webpack "^4.42.1"
     webpack-dev-server "^3.10.3"
 
-"@pieza/core@^0.3.1-alpha.1":
-  version "0.3.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@pieza/core/-/core-0.3.1-alpha.1.tgz#a2d2c65d4e8737b4f1f8556f62f83d698798daf6"
-  integrity sha512-YXOQPFlHPgUw8kO7nQxrf+LdjmParQCxaI62HQwAKQJNg44jPikEyn3AbZ1jABuk70O13wF0OrfxEhgonJxgNw==
+"@pieza/core@^0.4.0-alpha.0":
+  version "0.4.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@pieza/core/-/core-0.4.0-alpha.0.tgz#011957fde8d678d6d236d10020312d7c0a0c10a3"
+  integrity sha512-htdRoAG8/MmL9DS/qWHEm0qInQ5qtFv7GnmJCmVlV5iBX3YBf9fgVqT2HfYShKEw6htBpUp7X/RVUDq39asduQ==
   dependencies:
     "@types/dom-mediacapture-record" "^1.0.4"
     "@types/glob" "^7.1.1"
@@ -951,10 +951,10 @@
     typescript "^3.8.3"
     utility-types "^3.10.0"
 
-"@pieza/dev-window@0.0.2-alpha.2":
-  version "0.0.2-alpha.2"
-  resolved "https://registry.yarnpkg.com/@pieza/dev-window/-/dev-window-0.0.2-alpha.2.tgz#a68eb0b331803c421c0fe07cdc6363ea5ec8c8fb"
-  integrity sha512-vsjDhVO8q3UC2Yw5eIh3kn5mGVnniU77m5Io6G7KVGSxTBc8jIgPdsoC628Ikyju5S+/OLfUmlhuaji6/MKGmQ==
+"@pieza/dev-window@^0.0.2-alpha.3":
+  version "0.0.2-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pieza/dev-window/-/dev-window-0.0.2-alpha.3.tgz#fe550839e1604150dfab4dd66fa127af2beaaa1c"
+  integrity sha512-gKjHLpU5L1kFlWvp5vwjQIpk7Pwui6cedSqYHdpHQC2sSQccH8ZP5ijP8DWg/UV7JpSy1cqxhfkF1kUQJ9UtNQ==
   dependencies:
     data-uri-to-buffer "^3.0.0"
     electron "^8.2.0"
@@ -4503,13 +4503,13 @@ pend@~1.2.0:
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha1-elfrVQpng/kRUzH89GY9XI4AelA=
 
-pieza@^0.1.7-alpha.2:
-  version "0.1.7-alpha.2"
-  resolved "https://registry.yarnpkg.com/pieza/-/pieza-0.1.7-alpha.2.tgz#7a37d25ed7e40e5507cc89f24e5ee93065050fa2"
-  integrity sha512-uA9S4H3x8MfVAblXDLdLMZuDhA4h6gPpbWhbvWHWqkKOjh2wLGtWjzA0gqFlOOW32VOoAiUYjVBIJAbq2X5+Gw==
+pieza@^0.1.7-alpha.3:
+  version "0.1.7-alpha.3"
+  resolved "https://registry.yarnpkg.com/pieza/-/pieza-0.1.7-alpha.3.tgz#08d8c81cd83d3c14760fc8572d030a73ca822e88"
+  integrity sha512-LL29iVxVWVTLuiisiwH+jMKWdgC6NzdLtwiH4d6Tmpy4d/kgUyLwrb47+eCpUBZN4Gvr/V/FkW05c1cnFOXasg==
   dependencies:
-    "@pieza/cli" "^0.4.3-alpha.2"
-    "@pieza/core" "^0.3.1-alpha.1"
+    "@pieza/cli" "^0.5.0-alpha.0"
+    "@pieza/core" "^0.4.0-alpha.0"
 
 pify@^2.0.0:
   version "2.3.0"

@@ -1,4 +1,5 @@
 import { range } from './range';
+import * as Pieza from 'pieza';
 
 export interface RgbColor {
 	r: number;
@@ -50,4 +51,22 @@ const createGradient = (
 const colorToString = (color: RgbColor) =>
 	`rgb(${color.r}, ${color.g}, ${color.b})`;
 
-export { fromFirstToSecondColor, createGradient, colorToString };
+const getPixelBrightness = (x: number, y: number) => {
+	const context = Pieza.useContext();
+	const { width } = Pieza.useMeasures();
+	const r = context.pixels[(y * width + x) * 4];
+	const g = context.pixels[(y * width + x) * 4 + 1];
+	const b = context.pixels[(y * width + x) * 4 + 2];
+	const a = context.pixels[(y * width + x) * 4 + 3];
+	const color = context.color(r, g, b, a);
+	const brightness = context.brightness(color) / 100;
+
+	return brightness;
+};
+
+export {
+	fromFirstToSecondColor,
+	createGradient,
+	colorToString,
+	getPixelBrightness,
+};

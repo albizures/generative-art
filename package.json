@@ -7,10 +7,10 @@
 		"build": "pieza build"
 	},
 	"devDependencies": {
-		"@pieza/dev-window": "0.0.2-alpha.2",
+		"@pieza/dev-window": "^0.0.2-alpha.3",
 		"typescript": "^3.7.5"
 	},
 	"dependencies": {
-		"pieza": "^0.1.7-alpha.2"
+		"pieza": "^0.1.7-alpha.3"
 	}
 }
